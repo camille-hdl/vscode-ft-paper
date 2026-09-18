@@ -8,7 +8,7 @@ Light color theme for Visual Studio Code, generated from the
 ## Install
 
 - Marketplace: search for `ft-paper` in the Extensions view, or
-  `code --install-extension camille-hdl.ft-paper`.
+  `code --install-extension CamilleHodoul.ft-paper`.
 - From a local package: `code --install-extension ft-paper-0.1.0.vsix`.
 
 Then **Preferences: Color Theme** → `ft-paper`.
