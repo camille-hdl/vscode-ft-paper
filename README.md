@@ -3,7 +3,7 @@
 Light color theme for Visual Studio Code, generated from the
 [ft-paper palette](https://camillehdl.dev/palette).
 
-<!-- TODO screenshot: images/screenshot.png — VS Code with the ft-paper theme on a generic sample project. -->
+![VS Code with the ft-paper theme on a TypeScript file](images/screenshot.png)
 
 ## Install
 
