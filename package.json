@@ -1,0 +1,47 @@
+{
+  "name": "ft-paper",
+  "displayName": "ft-paper",
+  "description": "Light theme generated from the ft-paper palette of camillehdl.dev.",
+  "version": "0.1.0",
+  "publisher": "camille-hdl",
+  "author": "Camille Hodoul",
+  "license": "0BSD",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/camille-hdl/vscode-ft-paper.git"
+  },
+  "homepage": "https://github.com/camille-hdl/vscode-ft-paper#readme",
+  "bugs": {
+    "url": "https://github.com/camille-hdl/vscode-ft-paper/issues"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "light",
+    "paper",
+    "ft-paper"
+  ],
+  "galleryBanner": {
+    "color": "#fff1e5",
+    "theme": "light"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "label": "ft-paper",
+        "uiTheme": "vs",
+        "path": "./themes/ft-paper-color-theme.json"
+      }
+    ]
+  },
+  "scripts": {
+    "palette": "node --no-warnings scripts/fetch-palette.mjs",
+    "build": "node --no-warnings scripts/build.mjs",
+    "check": "node --no-warnings scripts/check.mjs"
+  }
+}

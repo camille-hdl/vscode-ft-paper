@@ -1,0 +1,7 @@
+scripts/**
+palette/**
+node_modules/**
+.gitignore
+.gitattributes
+.vscodeignore
+*.vsix

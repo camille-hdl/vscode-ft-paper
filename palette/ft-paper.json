@@ -1,0 +1,344 @@
+{
+  "name": "ft-paper",
+  "background": "#fff1e5",
+  "inspiration": "Financial Times (ft.com) Origami o-colors",
+  "contrastNote": "Surfaces are measured as ink on the surface; every other color as the color on paper.",
+  "groups": [
+    {
+      "title": "Surfaces",
+      "purpose": "Backgrounds, from the page up. Each step is one shade deeper than the last, and each figure is how well body ink reads on it.",
+      "swatches": [
+        {
+          "role": "paper",
+          "name": "Paper",
+          "hex": "#fff1e5",
+          "rgb": "rgb(255, 241, 229)",
+          "ansi": null,
+          "contrast": 12.98,
+          "contrastMeans": "ink on this",
+          "note": "Page background"
+        },
+        {
+          "role": "paper-raised",
+          "name": "Paper raised",
+          "hex": "#fff9f2",
+          "rgb": "rgb(255, 249, 242)",
+          "ansi": 15,
+          "contrast": 13.74,
+          "contrastMeans": "ink on this",
+          "note": "Code and quote blocks"
+        },
+        {
+          "role": "surface-1",
+          "name": "Surface 1",
+          "hex": "#f7e7d8",
+          "rgb": "rgb(247, 231, 216)",
+          "ansi": null,
+          "contrast": 11.89,
+          "contrastMeans": "ink on this",
+          "note": "Panels"
+        },
+        {
+          "role": "surface-2",
+          "name": "Surface 2",
+          "hex": "#f2dfce",
+          "rgb": "rgb(242, 223, 206)",
+          "ansi": null,
+          "contrast": 11.1,
+          "contrastMeans": "ink on this",
+          "note": "Selection, inline code"
+        },
+        {
+          "role": "surface-3",
+          "name": "Surface 3",
+          "hex": "#efdcca",
+          "rgb": "rgb(239, 220, 202)",
+          "ansi": null,
+          "contrast": 10.78,
+          "contrastMeans": "ink on this",
+          "note": "Meters, highlighted lines"
+        },
+        {
+          "role": "rule",
+          "name": "Rule",
+          "hex": "#b8afa5",
+          "rgb": "rgb(184, 175, 165)",
+          "ansi": 7,
+          "contrast": 6.65,
+          "contrastMeans": "ink on this",
+          "note": "Dividers and disabled ink"
+        }
+      ]
+    },
+    {
+      "title": "Ink",
+      "purpose": "Text, from primary down to faint. Each figure is the contrast against paper.",
+      "swatches": [
+        {
+          "role": "ink",
+          "name": "Slate",
+          "hex": "#262a33",
+          "rgb": "rgb(38, 42, 51)",
+          "ansi": 0,
+          "contrast": 12.98,
+          "contrastMeans": "on paper",
+          "note": "Body text"
+        },
+        {
+          "role": "ink-2",
+          "name": "Slate 2",
+          "hex": "#4a4f59",
+          "rgb": "rgb(74, 79, 89)",
+          "ansi": null,
+          "contrast": 7.43,
+          "contrastMeans": "on paper",
+          "note": "Secondary text"
+        },
+        {
+          "role": "ink-muted",
+          "name": "Muted",
+          "hex": "#6b6259",
+          "rgb": "rgb(107, 98, 89)",
+          "ansi": null,
+          "contrast": 5.39,
+          "contrastMeans": "on paper",
+          "note": "Metadata, captions"
+        },
+        {
+          "role": "ink-faint",
+          "name": "Faint",
+          "hex": "#7d746b",
+          "rgb": "rgb(125, 116, 107)",
+          "ansi": null,
+          "contrast": 4.14,
+          "contrastMeans": "on paper",
+          "note": "Hints"
+        },
+        {
+          "role": "ink-disabled",
+          "name": "Disabled",
+          "hex": "#b8afa5",
+          "rgb": "rgb(184, 175, 165)",
+          "ansi": 7,
+          "contrast": 1.95,
+          "contrastMeans": "on paper",
+          "note": "Disabled text"
+        }
+      ]
+    },
+    {
+      "title": "Highlight 1 — Claret",
+      "purpose": "The identity color. One accent, used sparingly.",
+      "swatches": [
+        {
+          "role": "claret",
+          "name": "Claret",
+          "hex": "#990f3d",
+          "rgb": "rgb(153, 15, 61)",
+          "ansi": 1,
+          "contrast": 7.62,
+          "contrastMeans": "on paper",
+          "note": "Accent, links on hover"
+        },
+        {
+          "role": "claret-bright",
+          "name": "Candy",
+          "hex": "#bf5f80",
+          "rgb": "rgb(191, 95, 128)",
+          "ansi": 13,
+          "contrast": 3.67,
+          "contrastMeans": "on paper",
+          "note": "Decorative only"
+        }
+      ]
+    },
+    {
+      "title": "Highlight 2 — Oxford",
+      "purpose": "The working accent: links, information, the calm counterweight to claret.",
+      "swatches": [
+        {
+          "role": "oxford",
+          "name": "Oxford",
+          "hex": "#0f5499",
+          "rgb": "rgb(15, 84, 153)",
+          "ansi": 4,
+          "contrast": 6.9,
+          "contrastMeans": "on paper",
+          "note": "Links, notes"
+        },
+        {
+          "role": "oxford-bright",
+          "name": "Oxford bright",
+          "hex": "#1e6ec4",
+          "rgb": "rgb(30, 110, 196)",
+          "ansi": 12,
+          "contrast": 4.65,
+          "contrastMeans": "on paper",
+          "note": "Gradient starts"
+        }
+      ]
+    },
+    {
+      "title": "Supporting",
+      "purpose": "Status and category hues. The deep tone reads on paper; the bright one is for fills.",
+      "swatches": [
+        {
+          "role": "jade",
+          "name": "Jade",
+          "hex": "#00733a",
+          "rgb": "rgb(0, 115, 58)",
+          "ansi": 2,
+          "contrast": 5.4,
+          "contrastMeans": "on paper",
+          "note": "Success"
+        },
+        {
+          "role": "jade-bright",
+          "name": "Jade bright",
+          "hex": "#00994d",
+          "rgb": "rgb(0, 153, 77)",
+          "ansi": 10,
+          "contrast": 3.35,
+          "contrastMeans": "on paper",
+          "note": "Fills"
+        },
+        {
+          "role": "teal",
+          "name": "Teal",
+          "hex": "#0d7680",
+          "rgb": "rgb(13, 118, 128)",
+          "ansi": 6,
+          "contrast": 4.84,
+          "contrastMeans": "on paper",
+          "note": "Secondary category"
+        },
+        {
+          "role": "teal-bright",
+          "name": "Teal bright",
+          "hex": "#009aa8",
+          "rgb": "rgb(0, 154, 168)",
+          "ansi": 14,
+          "contrast": 3.07,
+          "contrastMeans": "on paper",
+          "note": "Fills"
+        },
+        {
+          "role": "mandarin",
+          "name": "Mandarin",
+          "hex": "#99521f",
+          "rgb": "rgb(153, 82, 31)",
+          "ansi": 3,
+          "contrast": 5.3,
+          "contrastMeans": "on paper",
+          "note": "Warning"
+        },
+        {
+          "role": "mandarin-bright",
+          "name": "Mandarin bright",
+          "hex": "#bf6626",
+          "rgb": "rgb(191, 102, 38)",
+          "ansi": 11,
+          "contrast": 3.69,
+          "contrastMeans": "on paper",
+          "note": "Fills"
+        },
+        {
+          "role": "velvet",
+          "name": "Velvet",
+          "hex": "#593380",
+          "rgb": "rgb(89, 51, 128)",
+          "ansi": 5,
+          "contrast": 8.58,
+          "contrastMeans": "on paper",
+          "note": "Tertiary category"
+        },
+        {
+          "role": "crimson",
+          "name": "Crimson",
+          "hex": "#cc0000",
+          "rgb": "rgb(204, 0, 0)",
+          "ansi": 9,
+          "contrast": 5.32,
+          "contrastMeans": "on paper",
+          "note": "Error"
+        },
+        {
+          "role": "warm-grey",
+          "name": "Warm grey",
+          "hex": "#8a827a",
+          "rgb": "rgb(138, 130, 122)",
+          "ansi": 8,
+          "contrast": 3.41,
+          "contrastMeans": "on paper",
+          "note": "Dim glyphs"
+        }
+      ]
+    },
+    {
+      "title": "Derived fills",
+      "purpose": "Mixed from the palette, not part of it. A diff or search background has to sit behind text, which rules out the bright tones at full strength; each of these is one of them washed over paper at a fixed alpha. Every figure is how well body ink reads on the result.",
+      "swatches": [
+        {
+          "role": "fill-add",
+          "name": "Add",
+          "hex": "#ccdfc7",
+          "rgb": "rgb(204, 223, 199)",
+          "ansi": null,
+          "contrast": 10.23,
+          "contrastMeans": "ink on this",
+          "note": "Added line — jade-bright at 20% over paper"
+        },
+        {
+          "role": "fill-remove",
+          "name": "Remove",
+          "hex": "#f7cac0",
+          "rgb": "rgb(247, 202, 192)",
+          "ansi": null,
+          "contrast": 9.69,
+          "contrastMeans": "ink on this",
+          "note": "Removed line — crimson at 16% over paper"
+        },
+        {
+          "role": "fill-change",
+          "name": "Change",
+          "hex": "#dbdce0",
+          "rgb": "rgb(219, 220, 224)",
+          "ansi": null,
+          "contrast": 10.49,
+          "contrastMeans": "ink on this",
+          "note": "Changed line — oxford-bright at 16% over paper"
+        },
+        {
+          "role": "fill-change-focus",
+          "name": "Change focus",
+          "hex": "#b7c7da",
+          "rgb": "rgb(183, 199, 218)",
+          "ansi": null,
+          "contrast": 8.34,
+          "contrastMeans": "ink on this",
+          "note": "The part that actually changed, inside a changed line — oxford-bright at 32% over paper"
+        },
+        {
+          "role": "fill-match",
+          "name": "Match",
+          "hex": "#e9c2a4",
+          "rgb": "rgb(233, 194, 164)",
+          "ansi": null,
+          "contrast": 8.7,
+          "contrastMeans": "ink on this",
+          "note": "Every hit of a search — mandarin-bright at 34% over paper"
+        },
+        {
+          "role": "fill-target",
+          "name": "Target",
+          "hex": "#d697a2",
+          "rgb": "rgb(214, 151, 162)",
+          "ansi": null,
+          "contrast": 6.03,
+          "contrastMeans": "ink on this",
+          "note": "The one hit being jumped to — claret at 40% over paper"
+        }
+      ]
+    }
+  ]
+}
