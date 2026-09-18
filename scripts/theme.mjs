@@ -1,6 +1,4 @@
 // Theme specification, written in palette roles and never in hex.
-//
-// Syntax mappings follow the ft-paper Neovim theme.
 
 import { palette, fillRecipes, ansiSlots, alphaByte } from "./palette.mjs"
 
@@ -118,8 +116,8 @@ const ui = {
   "editor.selectionBackground": c("surface-2"),
   "editor.inactiveSelectionBackground": a("rule", 0.3, "selection in an unfocused editor, translucency required"),
   "editor.selectionHighlightBackground": a("rule", 0.25, "other occurrences of the selection, translucency required"),
-  "editor.wordHighlightBackground": a("rule", 0.25, "symbol references (Neovim: LspReferenceText), translucency required"),
-  "editor.wordHighlightStrongBackground": a("rule", 0.4, "symbol writes (Neovim: LspReferenceWrite, stronger), translucency required"),
+  "editor.wordHighlightBackground": a("rule", 0.25, "symbol references, translucency required"),
+  "editor.wordHighlightStrongBackground": a("rule", 0.4, "symbol writes, stronger than references; translucency required"),
   "editor.wordHighlightTextBackground": a("rule", 0.25, "textual occurrences, translucency required"),
   "editor.lineHighlightBorder": c("surface-3"),
   "editor.rangeHighlightBackground": a("rule", 0.2, "highlighted range, translucency required"),
