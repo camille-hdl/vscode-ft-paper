@@ -2,7 +2,17 @@
   "name": "ft-paper",
   "background": "#fff1e5",
   "inspiration": "Financial Times (ft.com) Origami o-colors",
-  "contrastNote": "Surfaces are measured as ink on the surface; every other color as the color on paper.",
+  "nightPalette": "https://camillehdl.dev/palette-night/",
+  "contrastNote": "Surfaces are measured as ink on the surface; every other color as the color on paper, and text colors also at their worst on the surfaces listed in readsOn. A color with an empty readsOn is not cleared for text.",
+  "tools": {
+    "site": "camillehdl.dev",
+    "ghostty": "Ghostty",
+    "herdr": "Herdr",
+    "neovim": "Neovim",
+    "vscode": "VS Code",
+    "glow": "glow",
+    "btop": "btop"
+  },
   "groups": [
     {
       "title": "Surfaces",
@@ -13,115 +23,174 @@
           "name": "Paper",
           "hex": "#fff1e5",
           "rgb": "rgb(255, 241, 229)",
+          "formula": null,
           "ansi": null,
           "contrast": 12.98,
           "contrastMeans": "ink on this",
-          "note": "Page background"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Page, editor and terminal background"
         },
         {
           "role": "paper-raised",
           "name": "Paper raised",
           "hex": "#fff9f2",
           "rgb": "rgb(255, 249, 242)",
+          "formula": null,
           "ansi": 15,
           "contrast": 13.74,
           "contrastMeans": "ink on this",
-          "note": "Code and quote blocks"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Code and quote blocks, popups, widgets"
         },
         {
           "role": "surface-1",
           "name": "Surface 1",
           "hex": "#f7e7d8",
           "rgb": "rgb(247, 231, 216)",
+          "formula": null,
           "ansi": null,
           "contrast": 11.89,
           "contrastMeans": "ink on this",
-          "note": "Panels"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Panels, side bars, status lines, notes"
         },
         {
           "role": "surface-2",
           "name": "Surface 2",
           "hex": "#f2dfce",
           "rgb": "rgb(242, 223, 206)",
+          "formula": null,
           "ansi": null,
           "contrast": 11.1,
           "contrastMeans": "ink on this",
-          "note": "Selection, inline code"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Selection, inline code, active rows"
         },
         {
           "role": "surface-3",
           "name": "Surface 3",
           "hex": "#efdcca",
           "rgb": "rgb(239, 220, 202)",
+          "formula": null,
           "ansi": null,
           "contrast": 10.78,
           "contrastMeans": "ink on this",
-          "note": "Meters, highlighted lines"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Current and highlighted lines, meters, Herdr panels"
         },
         {
           "role": "rule",
           "name": "Rule",
           "hex": "#b8afa5",
           "rgb": "rgb(184, 175, 165)",
+          "formula": null,
           "ansi": 7,
           "contrast": 6.65,
           "contrastMeans": "ink on this",
-          "note": "Dividers and disabled ink"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Dividers, borders, whitespace glyphs"
         }
       ]
     },
     {
       "title": "Ink",
-      "purpose": "Text, from primary down to faint. Each figure is the contrast against paper.",
+      "purpose": "Text, from primary down to faint. Each figure is the contrast against paper, then against the deepest surface the ink is cleared for. Faint and disabled stay under 4.5:1: they are never content.",
       "swatches": [
         {
           "role": "ink",
           "name": "Slate",
           "hex": "#262a33",
           "rgb": "rgb(38, 42, 51)",
+          "formula": null,
           "ansi": 0,
           "contrast": 12.98,
           "contrastMeans": "on paper",
-          "note": "Body text"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 10.78
+          },
+          "note": "Body text, terminal foreground"
         },
         {
           "role": "ink-2",
           "name": "Slate 2",
           "hex": "#4a4f59",
           "rgb": "rgb(74, 79, 89)",
+          "formula": null,
           "ansi": null,
           "contrast": 7.43,
           "contrastMeans": "on paper",
-          "note": "Secondary text"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 6.17
+          },
+          "note": "Secondary text, parameters, properties, quotes"
         },
         {
           "role": "ink-muted",
           "name": "Muted",
           "hex": "#6b6259",
           "rgb": "rgb(107, 98, 89)",
+          "formula": null,
           "ansi": null,
           "contrast": 5.39,
           "contrastMeans": "on paper",
-          "note": "Metadata, captions"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2"
+          ],
+          "worstContrast": {
+            "surface": "surface-2",
+            "contrast": 4.61
+          },
+          "note": "Metadata, captions, code comments, line numbers"
         },
         {
           "role": "ink-faint",
           "name": "Faint",
           "hex": "#7d746b",
           "rgb": "rgb(125, 116, 107)",
+          "formula": null,
           "ansi": null,
           "contrast": 4.14,
           "contrastMeans": "on paper",
-          "note": "Hints"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Hints and inactive labels, under 4.5:1"
         },
         {
           "role": "ink-disabled",
           "name": "Disabled",
           "hex": "#b8afa5",
           "rgb": "rgb(184, 175, 165)",
+          "formula": "same as rule",
           "ansi": 7,
           "contrast": 1.95,
           "contrastMeans": "on paper",
+          "readsOn": [],
+          "worstContrast": null,
           "note": "Disabled text"
         }
       ]
@@ -135,19 +204,34 @@
           "name": "Claret",
           "hex": "#990f3d",
           "rgb": "rgb(153, 15, 61)",
+          "formula": null,
           "ansi": 1,
           "contrast": 7.62,
           "contrastMeans": "on paper",
-          "note": "Accent, links on hover"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 6.33
+          },
+          "note": "Accent, links on hover, cursor, headings in editors"
         },
         {
           "role": "claret-bright",
           "name": "Candy",
           "hex": "#bf5f80",
           "rgb": "rgb(191, 95, 128)",
+          "formula": null,
           "ansi": 13,
           "contrast": 3.67,
           "contrastMeans": "on paper",
+          "readsOn": [],
+          "worstContrast": null,
           "note": "Decorative only"
         }
       ]
@@ -161,184 +245,1206 @@
           "name": "Oxford",
           "hex": "#0f5499",
           "rgb": "rgb(15, 84, 153)",
+          "formula": null,
           "ansi": 4,
           "contrast": 6.9,
           "contrastMeans": "on paper",
-          "note": "Links, notes"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 5.73
+          },
+          "note": "Links, information, focus"
         },
         {
           "role": "oxford-bright",
           "name": "Oxford bright",
           "hex": "#1e6ec4",
           "rgb": "rgb(30, 110, 196)",
+          "formula": null,
           "ansi": 12,
           "contrast": 4.65,
           "contrastMeans": "on paper",
-          "note": "Gradient starts"
+          "readsOn": [
+            "paper",
+            "paper-raised"
+          ],
+          "worstContrast": {
+            "surface": "paper",
+            "contrast": 4.65
+          },
+          "note": "Gradient starts, hovered buttons; base of the change fills"
         }
       ]
     },
     {
       "title": "Supporting",
-      "purpose": "Status and category hues. The deep tone reads on paper; the bright one is for fills.",
+      "purpose": "Status and category hues. The deep tone is text on paper; the bright one is for fills and the bright terminal slots.",
       "swatches": [
         {
           "role": "jade",
           "name": "Jade",
           "hex": "#00733a",
           "rgb": "rgb(0, 115, 58)",
+          "formula": null,
           "ansi": 2,
           "contrast": 5.4,
           "contrastMeans": "on paper",
-          "note": "Success"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2"
+          ],
+          "worstContrast": {
+            "surface": "surface-2",
+            "contrast": 4.62
+          },
+          "note": "Success, strings, additions"
         },
         {
           "role": "jade-bright",
           "name": "Jade bright",
           "hex": "#00994d",
           "rgb": "rgb(0, 153, 77)",
+          "formula": null,
           "ansi": 10,
           "contrast": 3.35,
           "contrastMeans": "on paper",
-          "note": "Fills"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Bright green; base of the add fill"
         },
         {
           "role": "teal",
           "name": "Teal",
           "hex": "#0d7680",
           "rgb": "rgb(13, 118, 128)",
+          "formula": null,
           "ansi": 6,
           "contrast": 4.84,
           "contrastMeans": "on paper",
-          "note": "Secondary category"
+          "readsOn": [
+            "paper",
+            "paper-raised"
+          ],
+          "worstContrast": {
+            "surface": "paper",
+            "contrast": 4.84
+          },
+          "note": "Secondary category: types in editors, hints"
         },
         {
           "role": "teal-bright",
           "name": "Teal bright",
           "hex": "#009aa8",
           "rgb": "rgb(0, 154, 168)",
+          "formula": null,
           "ansi": 14,
           "contrast": 3.07,
           "contrastMeans": "on paper",
-          "note": "Fills"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Bright cyan"
         },
         {
           "role": "mandarin",
           "name": "Mandarin",
           "hex": "#99521f",
           "rgb": "rgb(153, 82, 31)",
+          "formula": null,
           "ansi": 3,
           "contrast": 5.3,
           "contrastMeans": "on paper",
-          "note": "Warning"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2"
+          ],
+          "worstContrast": {
+            "surface": "surface-2",
+            "contrast": 4.53
+          },
+          "note": "Warning, numbers, constants"
         },
         {
           "role": "mandarin-bright",
           "name": "Mandarin bright",
           "hex": "#bf6626",
           "rgb": "rgb(191, 102, 38)",
+          "formula": null,
           "ansi": 11,
           "contrast": 3.69,
           "contrastMeans": "on paper",
-          "note": "Fills"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Bright yellow; base of the match fill"
         },
         {
           "role": "velvet",
           "name": "Velvet",
           "hex": "#593380",
           "rgb": "rgb(89, 51, 128)",
+          "formula": null,
           "ansi": 5,
           "contrast": 8.58,
           "contrastMeans": "on paper",
-          "note": "Tertiary category"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 7.13
+          },
+          "note": "Tertiary category: keywords in editors"
         },
         {
           "role": "crimson",
           "name": "Crimson",
           "hex": "#cc0000",
           "rgb": "rgb(204, 0, 0)",
+          "formula": null,
           "ansi": 9,
           "contrast": 5.32,
           "contrastMeans": "on paper",
-          "note": "Error"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2"
+          ],
+          "worstContrast": {
+            "surface": "surface-2",
+            "contrast": 4.55
+          },
+          "note": "Error, deletions, exceptions"
         },
         {
           "role": "warm-grey",
           "name": "Warm grey",
           "hex": "#8a827a",
           "rgb": "rgb(138, 130, 122)",
+          "formula": null,
           "ansi": 8,
           "contrast": 3.41,
           "contrastMeans": "on paper",
-          "note": "Dim glyphs"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Dim glyphs, under 4.5:1"
         }
       ]
     },
     {
       "title": "Derived fills",
-      "purpose": "Mixed from the palette, not part of it. A diff or search background has to sit behind text, which rules out the bright tones at full strength; each of these is one of them washed over paper at a fixed alpha. Every figure is how well body ink reads on the result.",
+      "purpose": "Mixed from the palette, not part of it. A diff or search background has to sit behind text, which rules out the bright tones at full strength; each of these is a palette color washed over paper at a fixed alpha. Every figure is how well body ink reads on the result.",
       "swatches": [
         {
           "role": "fill-add",
           "name": "Add",
           "hex": "#ccdfc7",
           "rgb": "rgb(204, 223, 199)",
+          "formula": "jade-bright at 20% over paper",
           "ansi": null,
           "contrast": 10.23,
           "contrastMeans": "ink on this",
-          "note": "Added line — jade-bright at 20% over paper"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Added line"
         },
         {
           "role": "fill-remove",
           "name": "Remove",
           "hex": "#f7cac0",
           "rgb": "rgb(247, 202, 192)",
+          "formula": "crimson at 16% over paper",
           "ansi": null,
           "contrast": 9.69,
           "contrastMeans": "ink on this",
-          "note": "Removed line — crimson at 16% over paper"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Removed line"
         },
         {
           "role": "fill-change",
           "name": "Change",
           "hex": "#dbdce0",
           "rgb": "rgb(219, 220, 224)",
+          "formula": "oxford-bright at 16% over paper",
           "ansi": null,
           "contrast": 10.49,
           "contrastMeans": "ink on this",
-          "note": "Changed line — oxford-bright at 16% over paper"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Changed line"
         },
         {
           "role": "fill-change-focus",
           "name": "Change focus",
           "hex": "#b7c7da",
           "rgb": "rgb(183, 199, 218)",
+          "formula": "oxford-bright at 32% over paper",
           "ansi": null,
           "contrast": 8.34,
           "contrastMeans": "ink on this",
-          "note": "The part that actually changed, inside a changed line — oxford-bright at 32% over paper"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "The part that actually changed, inside a changed line"
         },
         {
           "role": "fill-match",
           "name": "Match",
           "hex": "#e9c2a4",
           "rgb": "rgb(233, 194, 164)",
+          "formula": "mandarin-bright at 34% over paper",
           "ansi": null,
           "contrast": 8.7,
           "contrastMeans": "ink on this",
-          "note": "Every hit of a search — mandarin-bright at 34% over paper"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Every hit of a search"
         },
         {
           "role": "fill-target",
           "name": "Target",
           "hex": "#d697a2",
           "rgb": "rgb(214, 151, 162)",
+          "formula": "claret at 40% over paper",
           "ansi": null,
           "contrast": 6.03,
           "contrastMeans": "ink on this",
-          "note": "The one hit being jumped to — claret at 40% over paper"
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "The one hit being jumped to"
+        },
+        {
+          "role": "crimson-wash",
+          "name": "Warning wash",
+          "hex": "#fbded3",
+          "rgb": "rgb(251, 222, 211)",
+          "formula": "crimson at 8% over paper",
+          "ansi": null,
+          "contrast": 11.28,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Warning callouts on this site"
         }
       ]
     }
-  ]
+  ],
+  "roles": [
+    {
+      "title": "Text and accents",
+      "pairs": [
+        {
+          "use": "Body text",
+          "text": "ink",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "ghostty",
+            "herdr",
+            "neovim",
+            "vscode",
+            "glow",
+            "btop"
+          ],
+          "exempt": null,
+          "contrast": 12.98,
+          "textHex": "#262a33",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Secondary text",
+          "text": "ink-2",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "herdr",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 7.43,
+          "textHex": "#4a4f59",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Metadata, captions",
+          "text": "ink-muted",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "herdr",
+            "neovim",
+            "vscode",
+            "btop"
+          ],
+          "exempt": null,
+          "contrast": 5.39,
+          "textHex": "#6b6259",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Hints, inactive labels",
+          "text": "ink-muted",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "herdr",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 5.39,
+          "textHex": "#6b6259",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Inactive labels in btop",
+          "text": "ink-faint",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "btop"
+          ],
+          "exempt": "Never content: a hint sits beside what it describes",
+          "contrast": 4.14,
+          "textHex": "#7d746b",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Link",
+          "text": "oxford",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 6.9,
+          "textHex": "#0f5499",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Link on hover",
+          "text": "claret",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 7.62,
+          "textHex": "#990f3d",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Identity accent",
+          "text": "claret",
+          "background": "paper",
+          "note": "Cursor, headings, the active tab, quote borders",
+          "tools": [
+            "site",
+            "ghostty",
+            "herdr",
+            "neovim",
+            "vscode",
+            "glow",
+            "btop"
+          ],
+          "exempt": null,
+          "contrast": 7.62,
+          "textHex": "#990f3d",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Information",
+          "text": "oxford",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 6.9,
+          "textHex": "#0f5499",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Success",
+          "text": "jade",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "herdr",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 5.4,
+          "textHex": "#00733a",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Warning",
+          "text": "mandarin",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "herdr",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 5.3,
+          "textHex": "#99521f",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Error",
+          "text": "crimson",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "herdr",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 5.32,
+          "textHex": "#cc0000",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Hint",
+          "text": "teal",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 4.84,
+          "textHex": "#0d7680",
+          "backgroundHex": "#fff1e5"
+        }
+      ]
+    },
+    {
+      "title": "Interface",
+      "pairs": [
+        {
+          "use": "Panel, side bar, note",
+          "text": "ink",
+          "background": "surface-1",
+          "note": null,
+          "tools": [
+            "site",
+            "herdr",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 11.89,
+          "textHex": "#262a33",
+          "backgroundHex": "#f7e7d8"
+        },
+        {
+          "use": "Status line",
+          "text": "ink-2",
+          "background": "surface-1",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 6.8,
+          "textHex": "#4a4f59",
+          "backgroundHex": "#f7e7d8"
+        },
+        {
+          "use": "Inactive tab",
+          "text": "ink-muted",
+          "background": "surface-1",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 4.94,
+          "textHex": "#6b6259",
+          "backgroundHex": "#f7e7d8"
+        },
+        {
+          "use": "Popup, widget",
+          "text": "ink",
+          "background": "paper-raised",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 13.74,
+          "textHex": "#262a33",
+          "backgroundHex": "#fff9f2"
+        },
+        {
+          "use": "Selection",
+          "text": "ink",
+          "background": "surface-2",
+          "note": null,
+          "tools": [
+            "site",
+            "ghostty",
+            "herdr",
+            "neovim",
+            "vscode",
+            "btop"
+          ],
+          "exempt": null,
+          "contrast": 11.1,
+          "textHex": "#262a33",
+          "backgroundHex": "#f2dfce"
+        },
+        {
+          "use": "Current line, active row",
+          "text": "ink",
+          "background": "surface-3",
+          "note": "VS Code draws it as a border only",
+          "tools": [
+            "herdr",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 10.78,
+          "textHex": "#262a33",
+          "backgroundHex": "#efdcca"
+        },
+        {
+          "use": "Block cursor",
+          "text": "paper",
+          "background": "claret",
+          "note": "A thick cursor is claret, with paper as the character under it: the terminal and Herdr's panes, Neovim outside insert mode, VS Code's terminal",
+          "tools": [
+            "ghostty",
+            "herdr",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 7.62,
+          "textHex": "#fff1e5",
+          "backgroundHex": "#990f3d"
+        },
+        {
+          "use": "Bar cursor",
+          "text": "ink",
+          "background": "paper",
+          "note": "A thin cursor is ink: Neovim in insert mode, VS Code's editor",
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 12.98,
+          "textHex": "#262a33",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Label on the accent",
+          "text": "paper",
+          "background": "claret",
+          "note": "Current search hit and jump labels in Neovim, the title band in glow",
+          "tools": [
+            "neovim",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 7.62,
+          "textHex": "#fff1e5",
+          "backgroundHex": "#990f3d"
+        },
+        {
+          "use": "Marked text",
+          "text": "paper-raised",
+          "background": "claret",
+          "note": null,
+          "tools": [
+            "site"
+          ],
+          "exempt": null,
+          "contrast": 8.07,
+          "textHex": "#fff9f2",
+          "backgroundHex": "#990f3d"
+        },
+        {
+          "use": "Button, badge",
+          "text": "paper",
+          "background": "oxford",
+          "note": null,
+          "tools": [
+            "vscode",
+            "btop"
+          ],
+          "exempt": null,
+          "contrast": 6.9,
+          "textHex": "#fff1e5",
+          "backgroundHex": "#0f5499"
+        },
+        {
+          "use": "Line number",
+          "text": "ink-muted",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 5.39,
+          "textHex": "#6b6259",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Border, divider",
+          "text": "rule",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow",
+            "btop"
+          ],
+          "exempt": "Not text: a line only has to be seen",
+          "contrast": 1.95,
+          "textHex": "#b8afa5",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Disabled",
+          "text": "ink-disabled",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "vscode"
+          ],
+          "exempt": "Not content: disabled text is exempt",
+          "contrast": 1.95,
+          "textHex": "#b8afa5",
+          "backgroundHex": "#fff1e5"
+        }
+      ]
+    },
+    {
+      "title": "Code",
+      "pairs": [
+        {
+          "use": "Comment (italic)",
+          "text": "ink-muted",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 5.39,
+          "textHex": "#6b6259",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Punctuation",
+          "text": "ink-2",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 7.43,
+          "textHex": "#4a4f59",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Keyword, import",
+          "text": "oxford",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 6.9,
+          "textHex": "#0f5499",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "String, inserted, tag attribute",
+          "text": "jade",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 5.4,
+          "textHex": "#00733a",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Number, boolean",
+          "text": "mandarin",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 5.3,
+          "textHex": "#99521f",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Function, class, type",
+          "text": "velvet",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 8.58,
+          "textHex": "#593380",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Operator, URL",
+          "text": "teal",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 4.84,
+          "textHex": "#0d7680",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Tag, property, constant, deleted",
+          "text": "claret",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 7.62,
+          "textHex": "#990f3d",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Macro, escape, decorator",
+          "text": "claret",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 7.62,
+          "textHex": "#990f3d",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Regex, exception, important",
+          "text": "crimson",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 5.32,
+          "textHex": "#cc0000",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Variable",
+          "text": "ink",
+          "background": "paper",
+          "note": "The site leaves plain names uncolored too",
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 12.98,
+          "textHex": "#262a33",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Parameter",
+          "text": "ink-2",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 7.43,
+          "textHex": "#4a4f59",
+          "backgroundHex": "#fff1e5"
+        },
+        {
+          "use": "Code block",
+          "text": "ink",
+          "background": "paper-raised",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim"
+          ],
+          "exempt": null,
+          "contrast": 13.74,
+          "textHex": "#262a33",
+          "backgroundHex": "#fff9f2"
+        },
+        {
+          "use": "Inline code",
+          "text": "ink",
+          "background": "surface-2",
+          "note": null,
+          "tools": [
+            "site",
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 11.1,
+          "textHex": "#262a33",
+          "backgroundHex": "#f2dfce"
+        },
+        {
+          "use": "Highlighted line",
+          "text": "ink",
+          "background": "surface-3",
+          "note": "Marked by a claret left border",
+          "tools": [
+            "site"
+          ],
+          "exempt": null,
+          "contrast": 10.78,
+          "textHex": "#262a33",
+          "backgroundHex": "#efdcca"
+        }
+      ]
+    },
+    {
+      "title": "Diff and search",
+      "pairs": [
+        {
+          "use": "Added line",
+          "text": "ink",
+          "background": "fill-add",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 10.23,
+          "textHex": "#262a33",
+          "backgroundHex": "#ccdfc7"
+        },
+        {
+          "use": "Removed line",
+          "text": "ink",
+          "background": "fill-remove",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode",
+            "glow"
+          ],
+          "exempt": null,
+          "contrast": 9.69,
+          "textHex": "#262a33",
+          "backgroundHex": "#f7cac0"
+        },
+        {
+          "use": "Changed line",
+          "text": "ink",
+          "background": "fill-change",
+          "note": null,
+          "tools": [
+            "neovim"
+          ],
+          "exempt": null,
+          "contrast": 10.49,
+          "textHex": "#262a33",
+          "backgroundHex": "#dbdce0"
+        },
+        {
+          "use": "Changed part",
+          "text": "ink",
+          "background": "fill-change-focus",
+          "note": null,
+          "tools": [
+            "neovim"
+          ],
+          "exempt": null,
+          "contrast": 8.34,
+          "textHex": "#262a33",
+          "backgroundHex": "#b7c7da"
+        },
+        {
+          "use": "Search hit",
+          "text": "ink",
+          "background": "fill-match",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 8.7,
+          "textHex": "#262a33",
+          "backgroundHex": "#e9c2a4"
+        },
+        {
+          "use": "Current search hit",
+          "text": "ink",
+          "background": "fill-target",
+          "note": null,
+          "tools": [
+            "neovim",
+            "vscode"
+          ],
+          "exempt": null,
+          "contrast": 6.03,
+          "textHex": "#262a33",
+          "backgroundHex": "#d697a2"
+        },
+        {
+          "use": "Warning callout",
+          "text": "ink",
+          "background": "crimson-wash",
+          "note": null,
+          "tools": [
+            "site"
+          ],
+          "exempt": null,
+          "contrast": 11.28,
+          "textHex": "#262a33",
+          "backgroundHex": "#fbded3"
+        }
+      ]
+    }
+  ],
+  "terminal": {
+    "background": {
+      "role": "paper",
+      "hex": "#fff1e5"
+    },
+    "foreground": {
+      "role": "ink",
+      "hex": "#262a33"
+    },
+    "cursor": {
+      "role": "claret",
+      "hex": "#990f3d"
+    },
+    "cursorText": {
+      "role": "paper",
+      "hex": "#fff1e5"
+    },
+    "cursorBar": {
+      "role": "ink",
+      "hex": "#262a33"
+    },
+    "selectionBackground": {
+      "role": "surface-2",
+      "hex": "#f2dfce"
+    },
+    "selectionForeground": {
+      "role": "ink",
+      "hex": "#262a33"
+    },
+    "ansi": [
+      {
+        "index": 0,
+        "name": "black",
+        "role": "ink",
+        "hex": "#262a33",
+        "contrast": 12.98
+      },
+      {
+        "index": 1,
+        "name": "red",
+        "role": "claret",
+        "hex": "#990f3d",
+        "contrast": 7.62
+      },
+      {
+        "index": 2,
+        "name": "green",
+        "role": "jade",
+        "hex": "#00733a",
+        "contrast": 5.4
+      },
+      {
+        "index": 3,
+        "name": "yellow",
+        "role": "mandarin",
+        "hex": "#99521f",
+        "contrast": 5.3
+      },
+      {
+        "index": 4,
+        "name": "blue",
+        "role": "oxford",
+        "hex": "#0f5499",
+        "contrast": 6.9
+      },
+      {
+        "index": 5,
+        "name": "magenta",
+        "role": "velvet",
+        "hex": "#593380",
+        "contrast": 8.58
+      },
+      {
+        "index": 6,
+        "name": "cyan",
+        "role": "teal",
+        "hex": "#0d7680",
+        "contrast": 4.84
+      },
+      {
+        "index": 7,
+        "name": "white",
+        "role": "rule",
+        "hex": "#b8afa5",
+        "contrast": 1.95
+      },
+      {
+        "index": 8,
+        "name": "bright black",
+        "role": "warm-grey",
+        "hex": "#8a827a",
+        "contrast": 3.41
+      },
+      {
+        "index": 9,
+        "name": "bright red",
+        "role": "crimson",
+        "hex": "#cc0000",
+        "contrast": 5.32
+      },
+      {
+        "index": 10,
+        "name": "bright green",
+        "role": "jade-bright",
+        "hex": "#00994d",
+        "contrast": 3.35
+      },
+      {
+        "index": 11,
+        "name": "bright yellow",
+        "role": "mandarin-bright",
+        "hex": "#bf6626",
+        "contrast": 3.69
+      },
+      {
+        "index": 12,
+        "name": "bright blue",
+        "role": "oxford-bright",
+        "hex": "#1e6ec4",
+        "contrast": 4.65
+      },
+      {
+        "index": 13,
+        "name": "bright magenta",
+        "role": "claret-bright",
+        "hex": "#bf5f80",
+        "contrast": 3.67
+      },
+      {
+        "index": 14,
+        "name": "bright cyan",
+        "role": "teal-bright",
+        "hex": "#009aa8",
+        "contrast": 3.07
+      },
+      {
+        "index": 15,
+        "name": "bright white",
+        "role": "paper-raised",
+        "hex": "#fff9f2",
+        "contrast": 1.06
+      }
+    ]
+  }
 }
