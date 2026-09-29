@@ -9,7 +9,7 @@ Light color theme for Visual Studio Code, generated from the
 
 - Marketplace: search for `ft-paper` in the Extensions view, or
   `code --install-extension CamilleHodoul.ft-paper`.
-- From a local package: `code --install-extension ft-paper-0.1.0.vsix`.
+- From a local package: `code --install-extension ft-paper-0.2.0.vsix`.
 
 Then **Preferences: Color Theme** → `ft-paper`.
 
@@ -23,18 +23,20 @@ The theme uses palette colors only, referenced by role.
 | Token | Role |
 | --- | --- |
 | Comment | `ink-muted`, italic |
-| String | `jade` |
-| Number, boolean, constant, enum member | `mandarin` |
-| Function, method | `oxford` (built-in: italic) |
-| Keyword, control flow, HTML tag | `velvet` |
-| Type, class, module | `teal` (built-in: italic) |
+| String, tag attribute | `jade` |
+| Number, boolean | `mandarin` |
+| Keyword, control flow, import | `oxford` |
+| Function, method, type, class, module | `velvet` (built-in: italic) |
+| Operator | `teal` |
+| Property, named constant, enum member, HTML tag, macro, escape, decorator, `this`/`self` | `claret` |
+| Regular expression, exception | `crimson` |
+| Parameter, punctuation | `ink-2` |
 | Variable | `ink` |
-| Parameter, property, operator | `ink-2` |
-| Import, macro, escape, decorator, `this`/`self` | `claret` |
-| Exception | `crimson` |
-| Punctuation | `ink-muted` |
 | Markdown headings 1–2 / 3 / 4 / 5–6 | `claret` bold / `oxford` bold / `oxford` / `teal` |
-| Markdown link, tag attribute | `oxford` |
+| Markdown link | `oxford` |
+
+The syntax roles follow the code colors of camillehdl.dev (see the Code roles on the
+palette page).
 
 Semantic highlighting is enabled with the same roles.
 
@@ -46,11 +48,12 @@ Semantic highlighting is enabled with the same roles.
 | Side bar, activity bar, title bar, status bar, inactive tabs | background `surface-1` |
 | Widgets (hover, suggestions, command palette, menus, inputs) | background `paper-raised`, border `rule` |
 | Selection | `surface-2` |
+| Cursor | editor (thin bar): `ink`; terminal (block): `claret` over `paper` |
 | Current line | border `surface-3` |
 | Focus, buttons, badges, links | `oxford` |
 | Active tab top border, matched characters | `claret` |
 | Error / warning / info / hint | `crimson` / `mandarin` / `oxford` / `teal` |
-| Git added, untracked / modified, renamed / deleted / conflict / ignored | `jade` / `oxford` / `crimson` / `mandarin` / `ink-faint` |
+| Git added, untracked / modified, renamed / deleted / conflict / ignored | `jade` / `oxford` / `crimson` / `mandarin` / `ink-muted` |
 | Diff inserted / removed line | `fill-add` / `fill-remove` |
 | Search match / current match | `fill-match` / `fill-target` |
 | Terminal ANSI 0–15 | the palette's `ansi` slots |
