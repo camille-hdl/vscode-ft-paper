@@ -12,16 +12,14 @@ export const buildTheme = ({ name, type, palette, fillRecipes, terminal }) => {
   /** Palette hue made translucent; every transparency carries its reason. */
   const a = (role, alpha, why) => ({ hex: c(role) + alphaByte(alpha), why: `${role} at ${Math.round(alpha * 1000) / 10}% — ${why}` })
 
-  /** Published fill roles, with opacity adapted to VS Code highlight backgrounds. */
-  const fill = (role, why = "VS Code requires a translucent color here") => {
-    // Night fills are opaque in the palette. Prevent stacked overlays from
-    // accumulating; reduce search wash opacity to retain the syntax contrast.
-    if (type === "dark") {
-      const alpha = role === "fill-match" ? 0.5 : 254 / 255
-      return a(role, alpha, `published night fill, ${role === "fill-match" ? "reduced opacity keeps syntax readable" : "avoids accumulating overlays"}; ${why}`)
+  /** Published hue/alpha recipe; optional alpha accounts for a stacked highlight. */
+  const fill = (role, why = "VS Code requires a translucent color here", nightAlpha) => {
+    const { base, hex, alpha: recipeAlpha } = fillRecipes[role]
+    const alpha = type === "dark" ? nightAlpha ?? recipeAlpha : recipeAlpha
+    return {
+      hex: hex + alphaByte(alpha),
+      why: `${role} (${base} at ${Math.round(alpha * 100)}%: ${alpha === recipeAlpha ? "same recipe as the palette" : "adjusted for overlapping highlights"}, gives ${c(role)} at its published opacity over paper) — ${why}`,
     }
-    const { base, hex, alpha } = fillRecipes[role]
-    return { hex: hex + alphaByte(alpha), why: `${role} (${base} at ${Math.round(alpha * 100)}%: same recipe as the palette, gives back ${c(role)} over paper) — ${why}` }
   }
 
   // ---------------------------------------------------------------- interface
@@ -494,7 +492,22 @@ export const buildTheme = ({ name, type, palette, fillRecipes, terminal }) => {
 
   if (type === "dark") {
     ui["terminal.selectionForeground"] = terminal.selectionForeground.hex.toLowerCase()
-    ui["merge.currentHeaderBackground"] = fill("fill-add", "current side header")
+    ui["editor.selectionForeground"] = c("ink")
+    ui["editor.findMatchForeground"] = c("ink")
+    ui["editor.findMatchHighlightForeground"] = c("ink")
+    ui["list.highlightForeground"] = c("ink-2")
+    ui["list.focusHighlightForeground"] = c("ink-2")
+    // Search editors and peek code have no match-foreground color key.
+    ui["searchEditor.findMatchBackground"] = fill("fill-match", "retain syntax contrast in search results", 0.17)
+    ui["peekViewEditor.matchHighlightBackground"] = fill("fill-match", "retain syntax contrast in peek code", 0.17)
+    ui["editor.stackFrameHighlightBackground"] = fill("fill-match", "retain syntax contrast on the stopped line", 0.17)
+    // An added word or current header sits on fill-add; 8% keeps that stack readable.
+    ui["diffEditor.insertedTextBackground"] = fill("fill-add", "word highlight over the added line", 0.08)
+    ui["merge.currentHeaderBackground"] = fill("fill-add", "header distinguished from the current content", 0.08)
+    ui["merge.commonHeaderBackground"] = a("rule", 0.3, "ancestor header over common content, keeps syntax readable")
+    // 20% over the existing 20% gives the published 36% change-focus recipe.
+    ui["merge.incomingHeaderBackground"] = fill("fill-change-focus", "header over incoming content", 0.2)
+    ui["mergeEditor.change.word.background"] = fill("fill-change-focus", "changed word over the changed line", 0.2)
     ui["diffEditor.insertedTextBorder"] = c("jade")
     ui["diffEditor.removedTextBorder"] = c("crimson")
   }

@@ -1,4 +1,7 @@
 // Refreshes both committed palettes from the JSON embedded in their published pages.
+// Usage: node scripts/fetch-palette.mjs (or npm run palette).
+// Reads #ft-paper-palette and #ft-paper-night-palette; this is the only network
+// step needed to refresh theme data. Generation uses the committed JSON copies.
 import { writeFileSync } from "node:fs"
 import { themes } from "./palette.mjs"
 

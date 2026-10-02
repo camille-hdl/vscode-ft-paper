@@ -51,6 +51,7 @@
     "palette": "node --no-warnings scripts/fetch-palette.mjs",
     "build": "node --no-warnings scripts/build.mjs",
     "check": "node --no-warnings scripts/check.mjs",
-    "vscode:prepublish": "npm run build && npm run check"
+    "vscode:prepublish": "npm run build && npm run check",
+    "package": "npx @vscode/vsce package --no-dependencies && node scripts/check-package.mjs"
   }
 }

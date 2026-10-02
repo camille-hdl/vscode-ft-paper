@@ -10,10 +10,9 @@ Existing installations receive both themes through the same extension update.
 
 ![VS Code with the ft-paper theme on a TypeScript file](images/screenshot.png)
 
-![Illustrated ft-paper-night preview with TypeScript and terminal colors](images/screenshot-night.png)
+![VS Code with the ft-paper-night theme on a TypeScript file](images/screenshot-night.png)
 
-The night image is an illustrated preview using the generated theme colors, not a
-VS Code screenshot. The available VS Code window did not expose usable content.
+The night screenshot shows VS Code with an isolated profile and the packaged theme.
 
 ## Install
 
@@ -57,11 +56,12 @@ Semantic highlighting is enabled with the same roles.
 | Editor, active tab, panel, terminal | background `paper`, text `ink` |
 | Side bar, activity bar, title bar, status bar, inactive tabs | background `surface-1` |
 | Widgets (hover, suggestions, command palette, menus, inputs) | background `paper-raised`, border `rule` |
-| Selection | `surface-2` |
+| Selection | `surface-2`, with `ink` text in the night theme |
 | Cursor | editor (thin bar): `ink`; terminal (block): `claret` over `paper` |
 | Current line | border `surface-3` |
 | Focus, buttons, badges, links | `oxford` |
-| Active tab top border, matched characters | `claret` |
+| Active tab top border | `claret` |
+| Matched characters in lists | `claret` by day, `ink-2` at night |
 | Error / warning / info / hint | `crimson` / `mandarin` / `oxford` / `teal` |
 | Git added, untracked / modified, renamed / deleted / conflict / ignored | `jade` / `oxford` / `crimson` / `mandarin` / `ink-muted` |
 | Diff inserted / removed line | `fill-add` / `fill-remove` |
@@ -69,22 +69,31 @@ Semantic highlighting is enabled with the same roles.
 | Terminal ANSI 0–15 | the palette's `terminal.ansi` fields |
 
 VS Code requires translucent colors for diff, search, and merge backgrounds.
-The day theme keeps its existing hue and alpha recipes. The night theme uses the
-published `fill-*` swatches with an alpha of 254/255 to prevent stacked highlights
-from reducing text contrast. Inserted and removed words have colored borders.
-Night search highlights use `fill-match` at 50% opacity so syntax colors stay above
-4.5:1. The build also verifies the original fill formulas, which mix day accents
-over night paper.
+Both themes use the published fill recipes. Night recipes mix day accents over
+night paper, so a single diff line or editor search wash reproduces its published
+`fill-*` color within one RGB step.
+
+Night selection and editor search matches use `ink` text. This keeps the text
+readable without hiding selections underneath the fills. Added words and current
+conflict headers use an 8% overlay over their added content. Incoming headers and
+changed words use 20% over the existing 20%, reproducing `fill-change-focus` at
+36% overall. Colored borders also distinguish changed words.
+
+Search editors, peek code, and stopped debugger lines have no match-text color
+key. Their night search wash uses the published hue at 17% instead of 34% to keep
+the syntax colors readable. Other editor and terminal search washes keep the
+published recipe.
 
 ## Build
 
-Requires Node.js 18 or later. No dependencies.
+Requires Node.js 18 or later. The generator has no npm dependencies.
+Package verification also requires `unzip`.
 
 ```sh
 npm run palette   # refresh both palettes from their published pages
 npm run build     # generate both themes from scripts/theme.mjs
 npm run check     # off-palette colors, contrast, unknown keys
-npx @vscode/vsce package
+npm run package   # package without dependency detection, then verify the VSIX
 ```
 
 - `palette/ft-paper.json`: the structured data published on the palette page
@@ -97,8 +106,11 @@ npx @vscode/vsce package
   - a theme contribution has the wrong name, path, or light/dark type;
   - either theme JSON differs from a fresh build;
   - an opaque color is not a palette color or a derived fill;
-  - a translucent color has no palette base or no written reason;
-  - a key VS Code requires to be translucent is opaque;
+  - a translucent color has no palette or published recipe base, or no written reason;
+  - a required translucent background is opaque, or a night overlay exceeds 60% opacity;
+  - night selection visibility under a checked overlay is below a 1.10 contrast ratio;
+  - selected night text is below 4.5:1 under the checked overlays;
+  - a night diff word or conflict header has less than 1.05 contrast with its content;
   - body text, comments, line numbers or any syntax color is below 4.5:1 on the editor,
     hover or peek background;
   - interface content text, including ghost text and ignored files, is below 4.5:1;
@@ -110,6 +122,11 @@ npx @vscode/vsce package
     (skipped when offline).
 
 Packaging runs the build and checks through `vscode:prepublish`.
+`npm run package` uses `--no-dependencies` for this extension without dependencies,
+then checks the actual archive. The packaged version and contributions must match
+`package.json`, both theme files must match the generated files, and the README
+and license must be present. You can repeat that check with
+`node scripts/check-package.mjs ft-paper-0.3.0.vsix`.
 
 ## Known limits
 

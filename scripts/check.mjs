@@ -2,7 +2,7 @@
 // Usage: node scripts/check.mjs   (or npm run check). Exit code 1 if a check fails.
 //
 // 1. Off-palette colors: every #rrggbb must be a palette swatch or a derived fill;
-//    every #rrggbbaa must have its base in the palette and a written reason. Keys
+//    every #rrggbbaa must use a palette or published recipe hue with a reason. Keys
 //    VS Code wants translucent must be translucent.
 // 2. Contrast: body text, comments, line numbers and every syntax color ≥ 4.5:1 on
 //    the editor, hover and peek backgrounds. Night selection, diff, search and merge
@@ -37,7 +37,7 @@ try {
 
 for (const definition of themes) {
   const source = loadPalette(definition)
-  const { palette, derivedRoles, roleOf, terminal, type } = source
+  const { palette, derivedRoles, fillRecipes, roleOf, terminal, type } = source
   console.log(`\n=== ${source.name} ===`)
   const raw = readFileSync(source.themePath, "utf8")
   const theme = JSON.parse(raw)
@@ -87,7 +87,10 @@ for (const definition of themes) {
       continue
     }
     const base = hex.slice(0, 7)
-    if (!inPalette.has(base)) {
+    const key = path.replace(/^colors\./, "")
+    const why = alphaReasons[key]
+    const recipeHue = hex.length === 9 && why?.startsWith("fill-") && Object.values(fillRecipes).some((recipe) => recipe.hex === base)
+    if (!inPalette.has(base) && !recipeHue) {
       fail(`${path}: ${hex} is neither in the palette nor a derived fill`)
       continue
     }
@@ -95,19 +98,19 @@ for (const definition of themes) {
       opaque++
       continue
     }
-    const key = path.replace(/^colors\./, "")
-    const why = alphaReasons[key]
     if (!why) fail(`${path}: ${hex} is translucent without a written reason`)
-    if (derivedRoles.has(roleOf(base)) && !(type === "dark" && (hex.endsWith("fe") || (roleOf(base) === "fill-match" && hex.endsWith("80"))) && why?.startsWith("fill-"))) fail(`${path}: transparency on a derived fill (${roleOf(base)})`)
+    if (derivedRoles.has(roleOf(base))) fail(`${path}: transparency on a derived fill (${roleOf(base)})`)
     translucent.push([key, hex, why])
   }
-  for (const key of translucentRequired) {
+  const overlayKeys = new Set([...translucentRequired, ...Object.keys(alphaReasons).filter((key) => alphaReasons[key].startsWith("fill-"))])
+  for (const key of overlayKeys) {
     const hex = theme.colors[key]
     if (hex && alphaOf(hex) === 1) fail(`${key}: VS Code requires a translucent color, ${hex} is opaque`)
+    if (type === "dark" && hex && /background$/i.test(key) && alphaOf(hex) > 0.6) fail(`${key}: alpha ${fmt(alphaOf(hex))} exceeds 0.60 and hides underlying decorations`)
   }
   const distinct = new Set(uses.map(([, h]) => h))
   console.log(`  ${uses.length} uses, ${distinct.size} distinct values; ${opaque} opaque uses, all in the palette.`)
-  console.log(`  ${translucent.length} translucent uses, each on a palette hue:`)
+  console.log(`  ${translucent.length} translucent uses, each on a palette hue or a published fill recipe hue:`)
   for (const [key, hex, why] of translucent) console.log(`    ${key.padEnd(48)} ${hex}  ${why}`)
   const derivedUsed = [...distinct].filter((h) => h.length === 7 && derivedRoles.has(roleOf(h)))
   console.log(`  Derived fills used opaque: ${derivedUsed.map(roleOf).join(", ") || "none (all translucent)"}`)
@@ -208,28 +211,75 @@ for (const definition of themes) {
   // Keep day unchanged; enforce the threshold for night overlays too.
   console.log(`\n  Transient backgrounds (${type === "dark" ? "syntax contrast enforced" : "day syntax exceptions reported"}):`)
   const transient = [
-    ["selection", col["editor.selectionBackground"]],
-    ["inserted line (diff)", composite(col["diffEditor.insertedLineBackground"], col["editor.background"])],
-    ["removed line (diff)", composite(col["diffEditor.removedLineBackground"], col["editor.background"])],
-    ["inserted text (diff)", composite(col["diffEditor.insertedTextBackground"], composite(col["diffEditor.insertedLineBackground"], col["editor.background"]))],
-    ["removed text (diff)", composite(col["diffEditor.removedTextBackground"], composite(col["diffEditor.removedLineBackground"], col["editor.background"]))],
-    ["search match", composite(col["editor.findMatchHighlightBackground"], col["editor.background"])],
-    ["current search match", composite(col["editor.findMatchBackground"], col["editor.background"])],
-    ["search editor match", composite(col["searchEditor.findMatchBackground"], col["editor.background"])],
-    ["peek editor match", composite(col["peekViewEditor.matchHighlightBackground"], col["peekViewEditor.background"])],
-    ["peek result match", composite(col["peekViewResult.matchHighlightBackground"], col["peekViewResult.background"])],
-    ["list filter match", composite(col["list.filterMatchBackground"], col["list.activeSelectionBackground"])],
-    ["merge current header", composite(col["merge.currentHeaderBackground"], composite(col["merge.currentContentBackground"], col["editor.background"]))],
-    ["merge incoming header", composite(col["merge.incomingHeaderBackground"], composite(col["merge.incomingContentBackground"], col["editor.background"]))],
-    ["merge changed word", composite(col["mergeEditor.change.word.background"], composite(col["mergeEditor.change.background"], col["editor.background"]))],
+    ["selection", [], "editor.selectionForeground"],
+    ["inserted line (diff)", ["diffEditor.insertedLineBackground"]],
+    ["removed line (diff)", ["diffEditor.removedLineBackground"]],
+    ["inserted text (diff)", ["diffEditor.insertedLineBackground", "diffEditor.insertedTextBackground"]],
+    ["removed text (diff)", ["diffEditor.removedLineBackground", "diffEditor.removedTextBackground"]],
+    ["search match", ["editor.findMatchHighlightBackground"], "editor.findMatchHighlightForeground"],
+    ["current search match", ["editor.findMatchBackground"], "editor.findMatchForeground"],
+    ["search editor match", ["searchEditor.findMatchBackground"]],
+    ["peek editor match", ["peekViewEditor.matchHighlightBackground"], null, "peekViewEditor.background"],
+    ["peek result match", ["peekViewResult.matchHighlightBackground"], "peekViewResult.lineForeground", "peekViewResult.background"],
+    ["list filter match", ["list.filterMatchBackground"], "list.highlightForeground", "list.activeSelectionBackground"],
+    ["merge current content", ["merge.currentContentBackground"]],
+    ["merge incoming content", ["merge.incomingContentBackground"]],
+    ["merge common content", ["merge.commonContentBackground"]],
+    ["merge common header", ["merge.commonContentBackground", "merge.commonHeaderBackground"]],
+    ["merge current header", ["merge.currentContentBackground", "merge.currentHeaderBackground"]],
+    ["merge incoming header", ["merge.incomingContentBackground", "merge.incomingHeaderBackground"]],
+    ["merge changed word", ["mergeEditor.change.background", "mergeEditor.change.word.background"]],
+    ["stack frame", ["editor.stackFrameHighlightBackground"]],
+    ["focused stack frame", ["editor.focusedStackFrameHighlightBackground"]],
+    ["terminal search match", ["terminal.findMatchHighlightBackground"], "terminal.foreground", "terminal.background"],
+    ["terminal current match", ["terminal.findMatchBackground"], "terminal.foreground", "terminal.background"],
   ]
-  for (const [label, bg] of transient) {
+  const on = (layers, base) => layers.reduce((bg, key) => composite(col[key], bg), base)
+  for (const [label, layers, fgKey, bgKey = "editor.background"] of transient) {
+    const bg = label === "selection" ? col["editor.selectionBackground"] : on(layers, col[bgKey])
     const ink = contrast(col["editor.foreground"], bg)
-    const worst = [...syntax.keys()].map((fg) => [fg, contrast(fg, bg)]).sort((x, y) => x[1] - y[1])
+    // Night matches and selections can override syntax. Day exceptions stay reported.
+    const foregrounds = type === "dark" && fgKey && col[fgKey] ? [col[fgKey]] : [...syntax.keys()]
+    const worst = foregrounds.map((fg) => [fg, contrast(fg, bg)]).sort((x, y) => x[1] - y[1])
     const under = worst.filter(([, r]) => r < MIN).map(([fg, r]) => `${roleOf(fg)} ${fmt(r)}`)
     console.log(`    ${label.padEnd(28)} ${bg}  body text ${fmt(ink)}; worst ${fmt(worst[0][1])} (${roleOf(worst[0][0])}); under threshold: ${under.join(", ") || "none"}`)
-    if (type === "dark" && under.length) fail(`syntax on ${label}: ${under.join(", ")}`)
+    if (type === "dark" && under.length) fail(`text on ${label}: ${under.join(", ")}`)
     if (ink < MIN) fail(`body text on ${label}: ${fmt(ink)}`)
+    if (type === "dark" && layers.length) {
+      const selected = on(layers, col["editor.selectionBackground"])
+      const unselected = on(layers, col["editor.background"])
+      const visibility = contrast(selected, unselected)
+      if (visibility < 1.1) fail(`selection hidden under ${label}: ${visibility.toFixed(3)} < 1.100`)
+      const selectedForegrounds = col["editor.selectionForeground"] ? [col["editor.selectionForeground"]] : [...syntax.keys()]
+      const selectedText = Math.min(...selectedForegrounds.map((fg) => contrast(fg, selected)))
+      if (selectedText < MIN) fail(`selected text on ${label}: ${fmt(selectedText)}`)
+      console.log(`      selected ${selected}; visibility ${visibility.toFixed(3)}; text ${fmt(selectedText)}`)
+    }
+  }
+  if (type === "dark") {
+    // Extra word/header layers must differ from their underlying line/content.
+    for (const [label, line, extra] of [
+      ["inserted word", "diffEditor.insertedLineBackground", "diffEditor.insertedTextBackground"],
+      ["removed word", "diffEditor.removedLineBackground", "diffEditor.removedTextBackground"],
+      ["current header", "merge.currentContentBackground", "merge.currentHeaderBackground"],
+      ["incoming header", "merge.incomingContentBackground", "merge.incomingHeaderBackground"],
+    ]) {
+      const base = on([line], col["editor.background"])
+      const highlighted = on([line, extra], col["editor.background"])
+      const distinction = contrast(base, highlighted)
+      if (distinction < 1.05) fail(`${label} indistinguishable from content: ${distinction.toFixed(3)}`)
+      console.log(`    ${label}: content/highlight ${distinction.toFixed(3)}`)
+    }
+    // Ordinary editor/terminal search washes reproduce the published night fills.
+    for (const [key, role] of [
+      ["diffEditor.insertedLineBackground", "fill-add"], ["diffEditor.removedLineBackground", "fill-remove"],
+      ["editor.findMatchHighlightBackground", "fill-match"], ["editor.findMatchBackground", "fill-target"],
+      ["terminal.findMatchHighlightBackground", "fill-match"], ["terminal.findMatchBackground", "fill-target"],
+    ]) {
+      const got = on([key], col["editor.background"])
+      const drift = Math.max(...[1, 3, 5].map((i) => Math.abs(parseInt(got.slice(i, i + 2), 16) - parseInt(palette[role].slice(i, i + 2), 16))))
+      if (drift > 1) fail(`${key}: does not reproduce published ${role}: ${got}`)
+    }
   }
 
   // ---------------------------------------------------------------- 3. keys
@@ -292,7 +342,7 @@ for (const definition of themes) {
     sidebar: col["sideBar.background"],
     selection: col["editor.selectionBackground"],
   })) {
-    const foregrounds = label === "sidebar" ? [col["sideBar.foreground"], col["descriptionForeground"], ...Object.keys(col).filter((k) => k.startsWith("gitDecoration.")).map((k) => col[k])] : gated.map(([, fg]) => fg)
+    const foregrounds = label === "sidebar" ? [col["sideBar.foreground"], col["descriptionForeground"], ...Object.keys(col).filter((k) => k.startsWith("gitDecoration.")).map((k) => col[k])] : label === "selection" && col["editor.selectionForeground"] ? [col["editor.selectionForeground"]] : gated.map(([, fg]) => fg)
     const worst = foregrounds.map((fg) => [fg, contrast(fg, bg)]).sort((a, b) => a[1] - b[1])[0]
     console.log(`  ${label.padEnd(16)} ${fmt(worst[1])}:1 (${roleOf(worst[0])} on ${roleOf(bg)})`)
   }

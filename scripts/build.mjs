@@ -1,4 +1,6 @@
 // Generates both themes from the committed palettes and shared specification.
+// Usage: node scripts/build.mjs (or npm run build).
+// Verifies each published fill formula before writing the generated JSON.
 import { writeFileSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 import { themes, loadPalette, composite, alphaByte } from "./palette.mjs"
