@@ -1,22 +1,32 @@
-# ft-paper for VS Code
+# ft-paper and ft-paper-night for VS Code
 
-Light color theme for Visual Studio Code, generated from the
-[ft-paper palette](https://camillehdl.dev/palette).
+One extension with two color themes, generated from the published palettes of
+camillehdl.dev:
+
+- `ft-paper`, a light theme from the [day palette](https://camillehdl.dev/palette/).
+- `ft-paper-night`, a dark theme from the [night palette](https://camillehdl.dev/palette-night/).
+
+Existing installations receive both themes through the same extension update.
 
 ![VS Code with the ft-paper theme on a TypeScript file](images/screenshot.png)
+
+![Illustrated ft-paper-night preview with TypeScript and terminal colors](images/screenshot-night.png)
+
+The night image is an illustrated preview using the generated theme colors, not a
+VS Code screenshot. The available VS Code window did not expose usable content.
 
 ## Install
 
 - Marketplace: search for `ft-paper` in the Extensions view, or
   `code --install-extension CamilleHodoul.ft-paper`.
-- From a local package: `code --install-extension ft-paper-0.2.0.vsix`.
+- From a local package: `code --install-extension ft-paper-0.3.0.vsix`.
 
-Then **Preferences: Color Theme** → `ft-paper`.
+Run **Preferences: Color Theme**, then select `ft-paper` or `ft-paper-night`.
 
 ## Colors
 
-Hex values, ANSI slots and contrast ratios: <https://camillehdl.dev/palette>.
-The theme uses palette colors only, referenced by role.
+Both palette pages list hex values, terminal ANSI slots, and contrast ratios.
+The themes use the same syntax roles with each palette's colors.
 
 ### Syntax
 
@@ -56,44 +66,64 @@ Semantic highlighting is enabled with the same roles.
 | Git added, untracked / modified, renamed / deleted / conflict / ignored | `jade` / `oxford` / `crimson` / `mandarin` / `ink-muted` |
 | Diff inserted / removed line | `fill-add` / `fill-remove` |
 | Search match / current match | `fill-match` / `fill-target` |
-| Terminal ANSI 0–15 | the palette's `ansi` slots |
+| Terminal ANSI 0–15 | the palette's `terminal.ansi` fields |
 
-Derived fills (`fill-*`) are written as their palette recipe (hue + alpha), because
-VS Code requires translucent colors for highlight, diff and merge keys.
+VS Code requires translucent colors for diff, search, and merge backgrounds.
+The day theme keeps its existing hue and alpha recipes. The night theme uses the
+published `fill-*` swatches with an alpha of 254/255 to prevent stacked highlights
+from reducing text contrast. Inserted and removed words have colored borders.
+Night search highlights use `fill-match` at 50% opacity so syntax colors stay above
+4.5:1. The build also verifies the original fill formulas, which mix day accents
+over night paper.
 
 ## Build
 
 Requires Node.js 18 or later. No dependencies.
 
 ```sh
-npm run palette   # refresh palette/ft-paper.json from https://camillehdl.dev/palette
-npm run build     # scripts/theme.mjs → themes/ft-paper-color-theme.json
+npm run palette   # refresh both palettes from their published pages
+npm run build     # generate both themes from scripts/theme.mjs
 npm run check     # off-palette colors, contrast, unknown keys
 npx @vscode/vsce package
 ```
 
 - `palette/ft-paper.json`: the structured data published on the palette page
-  (`<script id="ft-paper-palette">`), committed as is. The build reads only this file.
+  (`<script id="ft-paper-palette">`), committed as published.
+- `palette/ft-paper-night.json`: the night page's JSON (`#ft-paper-night-palette`).
+  The build reads both committed palettes without fetching them.
 - `scripts/theme.mjs`: the theme specification, written in palette roles, never in hex.
-- `themes/ft-paper-color-theme.json`: generated; do not edit by hand.
+- `themes/*-color-theme.json`: generated; do not edit by hand.
 - `npm run check` exits with code 1 if:
-  - the theme JSON differs from a fresh build;
+  - a theme contribution has the wrong name, path, or light/dark type;
+  - either theme JSON differs from a fresh build;
   - an opaque color is not a palette color or a derived fill;
   - a translucent color has no palette base or no written reason;
   - a key VS Code requires to be translucent is opaque;
   - body text, comments, line numbers or any syntax color is below 4.5:1 on the editor,
     hover or peek background;
-  - interface text is below 4.5:1 (disabled and ghost text are reported, not failed);
+  - interface content text, including ghost text and ignored files, is below 4.5:1;
+  - night syntax is below 4.5:1 on the checked selection, suggestion, diff, search,
+    peek match, list filter, or merge backgrounds;
+  - syntax roles, cursor colors, or ANSI slots differ from their palette roles;
+  - any night ANSI color is below 4.5:1 on the terminal background;
   - a key is missing from the [theme color reference](https://code.visualstudio.com/api/references/theme-color)
     (skipped when offline).
 
+Packaging runs the build and checks through `vscode:prepublish`.
+
 ## Known limits
 
-- On transient backgrounds (selection, diff, search matches), some syntax colors fall
-  below 4.5:1; body text stays above 6:1. `npm run check` lists the figures.
-- Ignored files in the Git decorations (`ink-faint`, 3.79:1) and ghost text
-  (`ink-faint`, 4.14:1) are below 4.5:1 by design.
-- Keys not set by the theme fall back to VS Code's default light theme.
+- The day theme is unchanged from 0.2.0. Some syntax colors on selection, diff,
+  search, and merge backgrounds remain below 4.5:1. Body text stays above 6:1.
+  The check reports these exceptions. The published day ANSI colors also include
+  contrasts below 4.5:1 and remain unchanged.
+- Disabled text uses `ink-disabled` and is exempt from the content text checks.
+  Ignored files and ghost text use `ink-muted` and pass.
+- ANSI contrast is checked on the terminal background. ANSI text on colored
+  application backgrounds or terminal selections can have lower contrast.
+- Keys not set by a theme fall back to VS Code's corresponding light or dark defaults.
+  The check covers explicit text/background pairs, not every extension or combination
+  of overlapping decorations.
 
 ## License
 

@@ -1,0 +1,1152 @@
+{
+  "name": "ft-paper-night",
+  "background": "#1f1915",
+  "inspiration": "Financial Times (ft.com) Origami o-colors",
+  "dayPalette": "https://camillehdl.dev/palette/",
+  "contrastNote": "Surfaces are measured as ink on the surface; every other color as the color on paper, and text colors also at their worst on the surfaces listed in readsOn.",
+  "groups": [
+    {
+      "title": "Surfaces",
+      "purpose": "Backgrounds, from the page up. At night a surface rises by getting lighter; each figure is how well body ink reads on it.",
+      "swatches": [
+        {
+          "role": "paper",
+          "name": "Paper",
+          "hex": "#1f1915",
+          "rgb": "rgb(31, 25, 21)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 11.7,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Page and terminal background"
+        },
+        {
+          "role": "paper-raised",
+          "name": "Paper raised",
+          "hex": "#261f1a",
+          "rgb": "rgb(38, 31, 26)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 10.93,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Code and quote blocks"
+        },
+        {
+          "role": "surface-1",
+          "name": "Surface 1",
+          "hex": "#2b231d",
+          "rgb": "rgb(43, 35, 29)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 10.39,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Panels, popups, status lines"
+        },
+        {
+          "role": "surface-2",
+          "name": "Surface 2",
+          "hex": "#3a2f27",
+          "rgb": "rgb(58, 47, 39)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 8.75,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Selection, inline code"
+        },
+        {
+          "role": "surface-3",
+          "name": "Surface 3",
+          "hex": "#40342b",
+          "rgb": "rgb(64, 52, 43)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 8.11,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Meters, highlighted and current lines"
+        },
+        {
+          "role": "rule",
+          "name": "Rule",
+          "hex": "#5c4f45",
+          "rgb": "rgb(92, 79, 69)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 5.32,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Dividers, borders and disabled ink"
+        }
+      ]
+    },
+    {
+      "title": "Ink",
+      "purpose": "Text, from primary down to faint. The body ink stays under 12:1, so the page does not glare; the faintest ink still reads, which is the point of having one. Each figure is the contrast against paper, then against the darkest-lit surface the ink is cleared for.",
+      "swatches": [
+        {
+          "role": "ink",
+          "name": "Paper ink",
+          "hex": "#e3d1bf",
+          "rgb": "rgb(227, 209, 191)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 11.7,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 8.11
+          },
+          "note": "Body text, terminal foreground"
+        },
+        {
+          "role": "ink-bright",
+          "name": "Wheat",
+          "hex": "#f2dfce",
+          "rgb": "rgb(242, 223, 206)",
+          "formula": "surface-2 from ft-paper",
+          "ansi": 15,
+          "contrast": 13.43,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 9.3
+          },
+          "note": "Bold emphasis only"
+        },
+        {
+          "role": "ink-2",
+          "name": "Paper ink 2",
+          "hex": "#c8b7a6",
+          "rgb": "rgb(200, 183, 166)",
+          "formula": null,
+          "ansi": 7,
+          "contrast": 8.92,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 6.18
+          },
+          "note": "Secondary text"
+        },
+        {
+          "role": "ink-muted",
+          "name": "Muted",
+          "hex": "#b09f8f",
+          "rgb": "rgb(176, 159, 143)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 6.79,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.7
+          },
+          "note": "Metadata, captions, code comments"
+        },
+        {
+          "role": "ink-faint",
+          "name": "Faint",
+          "hex": "#998a7c",
+          "rgb": "rgb(153, 138, 124)",
+          "formula": null,
+          "ansi": 8,
+          "contrast": 5.2,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1"
+          ],
+          "worstContrast": {
+            "surface": "surface-1",
+            "contrast": 4.62
+          },
+          "note": "Hints, autosuggestions — on paper, raised and surface 1"
+        },
+        {
+          "role": "ink-disabled",
+          "name": "Disabled",
+          "hex": "#5c4f45",
+          "rgb": "rgb(92, 79, 69)",
+          "formula": null,
+          "ansi": null,
+          "contrast": 2.2,
+          "contrastMeans": "on paper",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Disabled text, never content"
+        }
+      ]
+    },
+    {
+      "title": "Highlight 1 — Claret",
+      "purpose": "The identity color. One accent, used sparingly.",
+      "swatches": [
+        {
+          "role": "claret",
+          "name": "Claret",
+          "hex": "#d28e9b",
+          "rgb": "rgb(210, 142, 155)",
+          "formula": "claret at 44% over day paper",
+          "ansi": 1,
+          "contrast": 6.69,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.63
+          },
+          "note": "Accent, links on hover, cursor"
+        },
+        {
+          "role": "claret-bright",
+          "name": "Candy",
+          "hex": "#d999a8",
+          "rgb": "rgb(217, 153, 168)",
+          "formula": "claret-bright at 60% over day paper",
+          "ansi": 13,
+          "contrast": 7.51,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 5.2
+          },
+          "note": "Decorative, bright magenta"
+        }
+      ]
+    },
+    {
+      "title": "Highlight 2 — Oxford",
+      "purpose": "The working accent: links, information, the calm counterweight to claret. Oxford itself goes grey when lightened, so both night tones come from oxford bright.",
+      "swatches": [
+        {
+          "role": "oxford",
+          "name": "Oxford",
+          "hex": "#7da5d2",
+          "rgb": "rgb(125, 165, 210)",
+          "formula": "oxford-bright at 58% over day paper",
+          "ansi": 4,
+          "contrast": 6.77,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.69
+          },
+          "note": "Links, notes, information"
+        },
+        {
+          "role": "oxford-bright",
+          "name": "Oxford bright",
+          "hex": "#9ab6d6",
+          "rgb": "rgb(154, 182, 214)",
+          "formula": "oxford-bright at 45% over day paper",
+          "ansi": 12,
+          "contrast": 8.31,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 5.75
+          },
+          "note": "Emphasis, bright blue"
+        }
+      ]
+    },
+    {
+      "title": "Supporting",
+      "purpose": "Status and category hues. The base tone is text on any surface; the bright one is emphasis and the bright terminal slots.",
+      "swatches": [
+        {
+          "role": "jade",
+          "name": "Jade",
+          "hex": "#4db37b",
+          "rgb": "rgb(77, 179, 123)",
+          "formula": "jade-bright at 70% over day paper",
+          "ansi": 2,
+          "contrast": 6.66,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.62
+          },
+          "note": "Success, strings"
+        },
+        {
+          "role": "jade-bright",
+          "name": "Jade bright",
+          "hex": "#80c599",
+          "rgb": "rgb(128, 197, 153)",
+          "formula": "jade-bright at 50% over day paper",
+          "ansi": 10,
+          "contrast": 8.58,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 5.94
+          },
+          "note": "Emphasis, bright green"
+        },
+        {
+          "role": "teal",
+          "name": "Teal",
+          "hex": "#4db4ba",
+          "rgb": "rgb(77, 180, 186)",
+          "formula": "teal-bright at 70% over day paper",
+          "ansi": 6,
+          "contrast": 7.08,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.9
+          },
+          "note": "Secondary category, variables"
+        },
+        {
+          "role": "teal-bright",
+          "name": "Teal bright",
+          "hex": "#73c1c3",
+          "rgb": "rgb(115, 193, 195)",
+          "formula": "teal-bright at 55% over day paper",
+          "ansi": 14,
+          "contrast": 8.4,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 5.82
+          },
+          "note": "Emphasis, bright cyan"
+        },
+        {
+          "role": "mandarin",
+          "name": "Mandarin",
+          "hex": "#d2905f",
+          "rgb": "rgb(210, 144, 95)",
+          "formula": "mandarin-bright at 70% over day paper",
+          "ansi": 3,
+          "contrast": 6.53,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.53
+          },
+          "note": "Warning, numbers"
+        },
+        {
+          "role": "mandarin-bright",
+          "name": "Mandarin bright",
+          "hex": "#dca57c",
+          "rgb": "rgb(220, 165, 124)",
+          "formula": "mandarin-bright at 55% over day paper",
+          "ansi": 11,
+          "contrast": 8.04,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 5.57
+          },
+          "note": "Emphasis, bright yellow"
+        },
+        {
+          "role": "velvet",
+          "name": "Velvet",
+          "hex": "#b49cb8",
+          "rgb": "rgb(180, 156, 184)",
+          "formula": "velvet at 45% over day paper",
+          "ansi": 5,
+          "contrast": 6.94,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.81
+          },
+          "note": "Tertiary category, functions"
+        },
+        {
+          "role": "crimson",
+          "name": "Crimson",
+          "hex": "#e8857e",
+          "rgb": "rgb(232, 133, 126)",
+          "formula": "crimson at 45% over day paper",
+          "ansi": 9,
+          "contrast": 6.69,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1",
+            "surface-2",
+            "surface-3"
+          ],
+          "worstContrast": {
+            "surface": "surface-3",
+            "contrast": 4.64
+          },
+          "note": "Error"
+        },
+        {
+          "role": "warm-grey",
+          "name": "Warm grey",
+          "hex": "#8a827a",
+          "rgb": "rgb(138, 130, 122)",
+          "formula": "unchanged from ft-paper",
+          "ansi": 0,
+          "contrast": 4.6,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper"
+          ],
+          "worstContrast": {
+            "surface": "paper",
+            "contrast": 4.6
+          },
+          "note": "Dim glyphs; the darkest terminal slot, still text on paper"
+        }
+      ]
+    },
+    {
+      "title": "Derived fills",
+      "purpose": "Mixed from the palette, not part of it. A diff or search background sits behind text, so each is a day bright tone washed over night paper: enough hue to tell them apart, dark enough for ink. Every figure is how well body ink reads on the result.",
+      "swatches": [
+        {
+          "role": "fill-add",
+          "name": "Add",
+          "hex": "#183521",
+          "rgb": "rgb(24, 53, 33)",
+          "formula": "jade-bright at 22% over night paper",
+          "ansi": null,
+          "contrast": 9.01,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Added line"
+        },
+        {
+          "role": "fill-remove",
+          "name": "Remove",
+          "hex": "#421411",
+          "rgb": "rgb(66, 20, 17)",
+          "formula": "crimson at 20% over night paper",
+          "ansi": null,
+          "contrast": 10.55,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Removed line"
+        },
+        {
+          "role": "fill-change",
+          "name": "Change",
+          "hex": "#1f2a38",
+          "rgb": "rgb(31, 42, 56)",
+          "formula": "oxford-bright at 20% over night paper",
+          "ansi": null,
+          "contrast": 9.77,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Changed line"
+        },
+        {
+          "role": "fill-change-focus",
+          "name": "Change focus",
+          "hex": "#1f3854",
+          "rgb": "rgb(31, 56, 84)",
+          "formula": "oxford-bright at 36% over night paper",
+          "ansi": null,
+          "contrast": 8.07,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "The part that actually changed, inside a changed line"
+        },
+        {
+          "role": "fill-match",
+          "name": "Match",
+          "hex": "#55331b",
+          "rgb": "rgb(85, 51, 27)",
+          "formula": "mandarin-bright at 34% over night paper",
+          "ansi": null,
+          "contrast": 7.54,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Every hit of a search"
+        },
+        {
+          "role": "fill-target",
+          "name": "Target",
+          "hex": "#561527",
+          "rgb": "rgb(86, 21, 39)",
+          "formula": "claret at 45% over night paper",
+          "ansi": null,
+          "contrast": 9.23,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "The one hit being jumped to"
+        },
+        {
+          "role": "crimson-wash",
+          "name": "Warning wash",
+          "hex": "#301713",
+          "rgb": "rgb(48, 23, 19)",
+          "formula": "crimson at 10% over night paper",
+          "ansi": null,
+          "contrast": 11.24,
+          "contrastMeans": "ink on this",
+          "readsOn": [],
+          "worstContrast": null,
+          "note": "Warning callouts on the site"
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "title": "Text and accents",
+      "pairs": [
+        {
+          "use": "Body text",
+          "text": "ink",
+          "background": "paper",
+          "note": null,
+          "contrast": 11.7,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Strong emphasis",
+          "text": "ink-bright",
+          "background": "paper",
+          "note": null,
+          "contrast": 13.43,
+          "textHex": "#f2dfce",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Secondary text",
+          "text": "ink-2",
+          "background": "paper",
+          "note": null,
+          "contrast": 8.92,
+          "textHex": "#c8b7a6",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Metadata, captions",
+          "text": "ink-muted",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.79,
+          "textHex": "#b09f8f",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Hints, placeholders",
+          "text": "ink-faint",
+          "background": "paper",
+          "note": null,
+          "contrast": 5.2,
+          "textHex": "#998a7c",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Link",
+          "text": "oxford",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.77,
+          "textHex": "#7da5d2",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Link on hover",
+          "text": "claret",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.69,
+          "textHex": "#d28e9b",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Identity accent",
+          "text": "claret",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.69,
+          "textHex": "#d28e9b",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Information",
+          "text": "oxford",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.77,
+          "textHex": "#7da5d2",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Success",
+          "text": "jade",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.66,
+          "textHex": "#4db37b",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Warning",
+          "text": "mandarin",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.53,
+          "textHex": "#d2905f",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Error",
+          "text": "crimson",
+          "background": "paper",
+          "note": null,
+          "contrast": 6.69,
+          "textHex": "#e8857e",
+          "backgroundHex": "#1f1915"
+        }
+      ]
+    },
+    {
+      "title": "Interface",
+      "pairs": [
+        {
+          "use": "Panel, popup, status line",
+          "text": "ink",
+          "background": "surface-1",
+          "note": null,
+          "contrast": 10.39,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#2b231d"
+        },
+        {
+          "use": "Selection",
+          "text": "ink",
+          "background": "surface-2",
+          "note": null,
+          "contrast": 8.75,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#3a2f27"
+        },
+        {
+          "use": "Current line",
+          "text": "ink",
+          "background": "surface-3",
+          "note": null,
+          "contrast": 8.11,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#40342b"
+        },
+        {
+          "use": "Block cursor",
+          "text": "paper",
+          "background": "claret",
+          "note": "A thick cursor is claret, with paper as the character under it: the terminal, Neovim outside insert mode",
+          "contrast": 6.69,
+          "textHex": "#1f1915",
+          "backgroundHex": "#d28e9b"
+        },
+        {
+          "use": "Bar cursor",
+          "text": "ink",
+          "background": "paper",
+          "note": "A thin cursor is ink: Neovim in insert mode",
+          "contrast": 11.7,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Border, divider",
+          "text": "rule",
+          "background": "paper",
+          "note": "Not text: a line only has to be seen",
+          "contrast": 2.2,
+          "textHex": "#5c4f45",
+          "backgroundHex": "#1f1915"
+        },
+        {
+          "use": "Disabled",
+          "text": "ink-disabled",
+          "background": "paper",
+          "note": "Not content: disabled text is exempt",
+          "contrast": 2.2,
+          "textHex": "#5c4f45",
+          "backgroundHex": "#1f1915"
+        }
+      ]
+    },
+    {
+      "title": "Code",
+      "pairs": [
+        {
+          "use": "Code block",
+          "text": "ink",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 10.93,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Inline code",
+          "text": "ink",
+          "background": "surface-2",
+          "note": null,
+          "contrast": 8.75,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#3a2f27"
+        },
+        {
+          "use": "Comment (italic)",
+          "text": "ink-muted",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.34,
+          "textHex": "#b09f8f",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Punctuation",
+          "text": "ink-2",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 8.34,
+          "textHex": "#c8b7a6",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Keyword, import",
+          "text": "oxford",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.33,
+          "textHex": "#7da5d2",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "String, inserted, tag attribute",
+          "text": "jade",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.22,
+          "textHex": "#4db37b",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Number, boolean",
+          "text": "mandarin",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.1,
+          "textHex": "#d2905f",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Function, class, type",
+          "text": "velvet",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.49,
+          "textHex": "#b49cb8",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Operator, URL",
+          "text": "teal",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.61,
+          "textHex": "#4db4ba",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Tag, property, constant, deleted",
+          "text": "claret",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.25,
+          "textHex": "#d28e9b",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Macro, escape, decorator",
+          "text": "claret",
+          "background": "paper-raised",
+          "note": "Editors only",
+          "contrast": 6.25,
+          "textHex": "#d28e9b",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Regex, exception, important",
+          "text": "crimson",
+          "background": "paper-raised",
+          "note": null,
+          "contrast": 6.25,
+          "textHex": "#e8857e",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Variable",
+          "text": "ink",
+          "background": "paper-raised",
+          "note": "Plain names stay uncolored",
+          "contrast": 10.93,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Parameter",
+          "text": "ink-2",
+          "background": "paper-raised",
+          "note": "Editors only",
+          "contrast": 8.34,
+          "textHex": "#c8b7a6",
+          "backgroundHex": "#261f1a"
+        },
+        {
+          "use": "Highlighted line",
+          "text": "ink",
+          "background": "surface-3",
+          "note": "Marked by a claret left border",
+          "contrast": 8.11,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#40342b"
+        }
+      ]
+    },
+    {
+      "title": "Diff and search",
+      "pairs": [
+        {
+          "use": "Added line",
+          "text": "ink",
+          "background": "fill-add",
+          "note": null,
+          "contrast": 9.01,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#183521"
+        },
+        {
+          "use": "Removed line",
+          "text": "ink",
+          "background": "fill-remove",
+          "note": null,
+          "contrast": 10.55,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#421411"
+        },
+        {
+          "use": "Changed line",
+          "text": "ink",
+          "background": "fill-change",
+          "note": null,
+          "contrast": 9.77,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#1f2a38"
+        },
+        {
+          "use": "Changed part",
+          "text": "ink",
+          "background": "fill-change-focus",
+          "note": null,
+          "contrast": 8.07,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#1f3854"
+        },
+        {
+          "use": "Search hit",
+          "text": "ink",
+          "background": "fill-match",
+          "note": null,
+          "contrast": 7.54,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#55331b"
+        },
+        {
+          "use": "Current search hit",
+          "text": "ink",
+          "background": "fill-target",
+          "note": null,
+          "contrast": 9.23,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#561527"
+        },
+        {
+          "use": "Warning callout",
+          "text": "ink",
+          "background": "crimson-wash",
+          "note": null,
+          "contrast": 11.24,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#301713"
+        }
+      ]
+    }
+  ],
+  "terminal": {
+    "background": {
+      "role": "paper",
+      "hex": "#1f1915"
+    },
+    "foreground": {
+      "role": "ink",
+      "hex": "#e3d1bf"
+    },
+    "cursor": {
+      "role": "claret",
+      "hex": "#d28e9b"
+    },
+    "cursorText": {
+      "role": "paper",
+      "hex": "#1f1915"
+    },
+    "cursorBar": {
+      "role": "ink",
+      "hex": "#e3d1bf"
+    },
+    "selectionBackground": {
+      "role": "surface-2",
+      "hex": "#3a2f27"
+    },
+    "selectionForeground": {
+      "role": "ink",
+      "hex": "#e3d1bf"
+    },
+    "ansi": [
+      {
+        "index": 0,
+        "name": "black",
+        "role": "warm-grey",
+        "hex": "#8a827a",
+        "contrast": 4.6
+      },
+      {
+        "index": 1,
+        "name": "red",
+        "role": "claret",
+        "hex": "#d28e9b",
+        "contrast": 6.69
+      },
+      {
+        "index": 2,
+        "name": "green",
+        "role": "jade",
+        "hex": "#4db37b",
+        "contrast": 6.66
+      },
+      {
+        "index": 3,
+        "name": "yellow",
+        "role": "mandarin",
+        "hex": "#d2905f",
+        "contrast": 6.53
+      },
+      {
+        "index": 4,
+        "name": "blue",
+        "role": "oxford",
+        "hex": "#7da5d2",
+        "contrast": 6.77
+      },
+      {
+        "index": 5,
+        "name": "magenta",
+        "role": "velvet",
+        "hex": "#b49cb8",
+        "contrast": 6.94
+      },
+      {
+        "index": 6,
+        "name": "cyan",
+        "role": "teal",
+        "hex": "#4db4ba",
+        "contrast": 7.08
+      },
+      {
+        "index": 7,
+        "name": "white",
+        "role": "ink-2",
+        "hex": "#c8b7a6",
+        "contrast": 8.92
+      },
+      {
+        "index": 8,
+        "name": "bright black",
+        "role": "ink-faint",
+        "hex": "#998a7c",
+        "contrast": 5.2
+      },
+      {
+        "index": 9,
+        "name": "bright red",
+        "role": "crimson",
+        "hex": "#e8857e",
+        "contrast": 6.69
+      },
+      {
+        "index": 10,
+        "name": "bright green",
+        "role": "jade-bright",
+        "hex": "#80c599",
+        "contrast": 8.58
+      },
+      {
+        "index": 11,
+        "name": "bright yellow",
+        "role": "mandarin-bright",
+        "hex": "#dca57c",
+        "contrast": 8.04
+      },
+      {
+        "index": 12,
+        "name": "bright blue",
+        "role": "oxford-bright",
+        "hex": "#9ab6d6",
+        "contrast": 8.31
+      },
+      {
+        "index": 13,
+        "name": "bright magenta",
+        "role": "claret-bright",
+        "hex": "#d999a8",
+        "contrast": 7.51
+      },
+      {
+        "index": 14,
+        "name": "bright cyan",
+        "role": "teal-bright",
+        "hex": "#73c1c3",
+        "contrast": 8.4
+      },
+      {
+        "index": 15,
+        "name": "bright white",
+        "role": "ink-bright",
+        "hex": "#f2dfce",
+        "contrast": 13.43
+      }
+    ]
+  }
+}
