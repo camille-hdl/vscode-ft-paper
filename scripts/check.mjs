@@ -6,7 +6,8 @@
 //    VS Code wants translucent must be translucent.
 // 2. Contrast: body text, comments, line numbers and every syntax color ≥ 4.5:1 on
 //    the editor, hover and peek backgrounds. Night selection, diff, search and merge
-//    backgrounds also fail below 4.5; day exceptions are measured without changing it.
+//    backgrounds also fail below 4.5, except syntax selected over published diff/merge
+//    fills (explicit 3:1 floor). Day exceptions are measured without changing it.
 // 3. Unknown keys: compared with the official reference when it is reachable.
 
 import { readFileSync } from "node:fs"
@@ -119,6 +120,7 @@ for (const definition of themes) {
 
   console.log(`\n# 2. Contrast (threshold ${fmt(MIN)}:1)`)
   const col = theme.colors
+  const editorSelection = composite(col["editor.selectionBackground"], col["editor.background"])
   const permanentBackgrounds = {
     editor: col["editor.background"],
     hover: col["editorHoverWidget.background"],
@@ -212,6 +214,7 @@ for (const definition of themes) {
   console.log(`\n  Transient backgrounds (${type === "dark" ? "syntax contrast enforced" : "day syntax exceptions reported"}):`)
   const transient = [
     ["selection", []],
+    ["other selection occurrence", ["editor.selectionHighlightBackground"]],
     ["inserted line (diff)", ["diffEditor.insertedLineBackground"]],
     ["removed line (diff)", ["diffEditor.removedLineBackground"]],
     ["inserted text (diff)", ["diffEditor.insertedLineBackground", "diffEditor.insertedTextBackground"]],
@@ -236,7 +239,7 @@ for (const definition of themes) {
   ]
   const on = (layers, base) => layers.reduce((bg, key) => composite(col[key], bg), base)
   for (const [label, layers, fgKey, bgKey = "editor.background"] of transient) {
-    const bg = label === "selection" ? col["editor.selectionBackground"] : on(layers, col[bgKey])
+    const bg = label === "selection" ? editorSelection : on(layers, col[bgKey])
     const ink = contrast(col["editor.foreground"], bg)
     // Only the listed match/UI foregrounds override syntax. In vs-dark,
     // editor.selectionForeground is ignored: selections retain token colors.
@@ -247,13 +250,21 @@ for (const definition of themes) {
     if (type === "dark" && under.length) fail(`text on ${label}: ${under.join(", ")}`)
     if (ink < MIN) fail(`body text on ${label}: ${fmt(ink)}`)
     if (type === "dark" && layers.length) {
-      const selected = on(layers, col["editor.selectionBackground"])
-      const unselected = on(layers, col["editor.background"])
+      const selection = label.startsWith("terminal ") ? col["terminal.selectionBackground"]
+        : label === "list filter match" ? col["list.activeSelectionBackground"]
+        : label === "peek result match" ? col["peekViewResult.selectionBackground"]
+        : composite(col["editor.selectionBackground"], col[bgKey])
+      const selected = on(layers, selection)
+      const unselected = on(layers, col[bgKey === "list.activeSelectionBackground" ? "list.hoverBackground" : bgKey])
       const visibility = contrast(selected, unselected)
       if (visibility < 1.1) fail(`selection hidden under ${label}: ${visibility.toFixed(3)} < 1.100`)
-      const selectedText = Math.min(...foregrounds.map((fg) => contrast(fg, selected)))
-      if (selectedText < MIN) fail(`selected text on ${label}: ${fmt(selectedText)}`)
-      console.log(`      selected ${selected}; visibility ${visibility.toFixed(3)}; text ${fmt(selectedText)}`)
+      const selectedForegrounds = label === "peek result match" ? [col["peekViewResult.selectionForeground"]] : foregrounds
+      const selectedText = Math.min(...selectedForegrounds.map((fg) => contrast(fg, selected)))
+      // Only syntax selected inside diffs/conflicts may use the authorized 3:1 floor.
+      const selectedMinimum = layers.some((key) => /^(diffEditor|merge|mergeEditor)\./.test(key)) ? 3 : MIN
+      if (selectedText < selectedMinimum) fail(`selected text on ${label}: ${fmt(selectedText)} < ${fmt(selectedMinimum)}`)
+      const exception = selectedMinimum === 3 && selectedText < MIN ? "; selected diff/merge exception, threshold 3.00:1" : ""
+      console.log(`      selected ${selected}; visibility ${visibility.toFixed(3)}; text ${fmt(selectedText)}${exception}`)
     }
   }
   if (type === "dark") {
@@ -272,15 +283,32 @@ for (const definition of themes) {
       if (distinction < 1.05) fail(`${label} indistinguishable from content: ${distinction.toFixed(3)}`)
       console.log(`    ${label}: content/highlight ${distinction.toFixed(3)}`)
     }
-    // Ordinary editor/terminal search washes reproduce the published night fills.
+    // Diff lines and conflict contents must retain the published visible fills.
     for (const [key, role] of [
+      ["diffEditor.insertedLineBackground", "fill-add"], ["diffEditor.removedLineBackground", "fill-remove"],
+      ["diffEditorGutter.insertedLineBackground", "fill-add"], ["diffEditorGutter.removedLineBackground", "fill-remove"],
+      ["merge.currentContentBackground", "fill-add"], ["merge.incomingContentBackground", "fill-change"],
+      ["mergeEditor.change.background", "fill-change"],
       ["editor.findMatchHighlightBackground", "fill-match"], ["editor.findMatchBackground", "fill-target"],
       ["terminal.findMatchHighlightBackground", "fill-match"], ["terminal.findMatchBackground", "fill-target"],
     ]) {
       const got = on([key], col["editor.background"])
       const drift = Math.max(...[1, 3, 5].map((i) => Math.abs(parseInt(got.slice(i, i + 2), 16) - parseInt(palette[role].slice(i, i + 2), 16))))
       if (drift > 1) fail(`${key}: does not reproduce published ${role}: ${got}`)
+      console.log(`    ${key}: ${role}, fill/paper ${contrast(got, col["editor.background"]).toFixed(3)}`)
     }
+    for (const layers of [
+      ["merge.incomingContentBackground", "merge.incomingHeaderBackground"],
+      ["mergeEditor.change.background", "mergeEditor.change.word.background"],
+    ]) {
+      const got = on(layers, col["editor.background"])
+      const drift = Math.max(...[1, 3, 5].map((i) => Math.abs(parseInt(got.slice(i, i + 2), 16) - parseInt(palette["fill-change-focus"].slice(i, i + 2), 16))))
+      if (drift > 1) fail(`${layers.join(" + ")}: does not reproduce published fill-change-focus: ${got}`)
+    }
+    const common = on(["merge.commonContentBackground"], col["editor.background"])
+    const commonVisibility = contrast(common, col["editor.background"])
+    if (commonVisibility < 1.1) fail(`common ancestor content hidden against paper: ${commonVisibility.toFixed(3)}`)
+    console.log(`    common ancestor: content/paper ${commonVisibility.toFixed(3)}`)
   }
 
   // ---------------------------------------------------------------- 3. keys
@@ -341,11 +369,11 @@ for (const definition of themes) {
   for (const [label, bg] of Object.entries({
     ...permanentBackgrounds,
     sidebar: col["sideBar.background"],
-    selection: col["editor.selectionBackground"],
+    selection: editorSelection,
   })) {
     const foregrounds = label === "sidebar" ? [col["sideBar.foreground"], col["descriptionForeground"], ...Object.keys(col).filter((k) => k.startsWith("gitDecoration.")).map((k) => col[k])] : gated.map(([, fg]) => fg)
     const worst = foregrounds.map((fg) => [fg, contrast(fg, bg)]).sort((a, b) => a[1] - b[1])[0]
-    console.log(`  ${label.padEnd(16)} ${fmt(worst[1])}:1 (${roleOf(worst[0])} on ${roleOf(bg)})`)
+    console.log(`  ${label.padEnd(16)} ${fmt(worst[1])}:1 (${roleOf(worst[0])} on ${roleOf(bg) ?? bg})`)
   }
 }
 

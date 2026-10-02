@@ -493,6 +493,8 @@ export const buildTheme = ({ name, type, palette, fillRecipes, terminal }) => {
   if (type === "dark") {
     ui["terminal.selectionForeground"] = terminal.selectionForeground.hex.toLowerCase()
     // vs-dark selections retain syntax colors; selectionForeground is HC-only.
+    ui["editor.selectionBackground"] = a("surface-2", 0.65, "editor selection, balances syntax contrast with visibility through published fills")
+    ui["editor.selectionHighlightBorder"] = c("oxford")
     ui["editor.findMatchForeground"] = c("ink")
     ui["editor.findMatchHighlightForeground"] = c("ink")
     ui["list.filterMatchBackground"] = fill("fill-match", "retain claret contrast in selected lists", 0.06)
@@ -501,19 +503,14 @@ export const buildTheme = ({ name, type, palette, fillRecipes, terminal }) => {
     ui["peekViewEditor.matchHighlightBackground"] = fill("fill-match", "retain selected syntax contrast in peek code", 0.06)
     ui["editor.stackFrameHighlightBackground"] = fill("fill-match", "retain selected syntax contrast on the stopped line", 0.06)
     ui["editor.focusedStackFrameHighlightBackground"] = fill("fill-add", "retain selected syntax contrast on the focused frame", 0.08)
-    // Keep surface-2 selections readable through both line and word/header layers.
-    ui["diffEditor.insertedLineBackground"] = fill("fill-add", "retain selected syntax contrast on added lines", 0.02)
-    ui["diffEditor.insertedTextBackground"] = fill("fill-add", "word highlight over the added line", 0.06)
-    ui["diffEditor.removedLineBackground"] = fill("fill-remove", "retain selected syntax contrast on removed lines", 0.16)
-    ui["diffEditor.removedTextBackground"] = fill("fill-remove", "word highlight over the removed line", 0.10)
-    ui["merge.currentContentBackground"] = fill("fill-add", "retain selected syntax contrast in current content", 0.02)
-    ui["merge.currentHeaderBackground"] = fill("fill-add", "header distinguished from the current content", 0.06)
-    ui["merge.incomingContentBackground"] = fill("fill-change", "retain selected syntax contrast in incoming content", 0.03)
-    ui["mergeEditor.change.background"] = fill("fill-change", "retain selected syntax contrast on changed lines", 0.03)
-    ui["merge.commonContentBackground"] = a("rule", 0.04, "ancestor content, retains selected syntax contrast")
-    ui["merge.commonHeaderBackground"] = a("rule", 0.10, "ancestor header over common content, retains selected syntax contrast")
-    ui["merge.incomingHeaderBackground"] = fill("fill-change-focus", "header over incoming content, including selections", 0.07)
-    ui["mergeEditor.change.word.background"] = fill("fill-change-focus", "changed word over the changed line, including selections", 0.07)
+    // Lines/content keep published fills. Extra layers stay readable without selection;
+    // selected diff/merge syntax has an explicit 3:1 exception in the check.
+    ui["diffEditor.insertedTextBackground"] = fill("fill-add", "word highlight over the published added line", 0.08)
+    ui["merge.currentHeaderBackground"] = fill("fill-add", "header over the published current content", 0.08)
+    ui["merge.commonHeaderBackground"] = a("rule", 0.3, "ancestor header over common content, keeps unselected syntax readable")
+    // 20% over the existing 20% reproduces the published 36% change-focus fill.
+    ui["merge.incomingHeaderBackground"] = fill("fill-change-focus", "header over incoming content", 0.2)
+    ui["mergeEditor.change.word.background"] = fill("fill-change-focus", "changed word over the changed line", 0.2)
     ui["diffEditor.insertedTextBorder"] = c("jade")
     ui["diffEditor.removedTextBorder"] = c("crimson")
   }
