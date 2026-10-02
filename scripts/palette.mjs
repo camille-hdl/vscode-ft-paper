@@ -1,65 +1,58 @@
-// Loads the ft-paper palette and provides the color helpers shared by build.mjs and
-// check.mjs.
-//
-// Source: palette/ft-paper.json, a verbatim copy of the structured data published at
-// https://camillehdl.dev/palette (refresh with npm run palette). Roles, hex values and
-// the six derived fills all come from that file; nothing is hand-copied here.
-
+// Loads palette/ft-paper.json and palette/ft-paper-night.json for build and check.
+// Source: the JSON published at camillehdl.dev/palette/ and /palette-night/.
+// Refresh with npm run palette; builds read these committed files without network.
+// Night fill formulas refer to day hues, so validation reads both palettes.
 import { readFileSync } from "node:fs"
+import { fileURLToPath } from "node:url"
 
-export const PALETTE_URL = "https://camillehdl.dev/palette/"
+export const themes = [
+  { name: "ft-paper", type: "light", uiTheme: "vs", url: "https://camillehdl.dev/palette/" },
+  { name: "ft-paper-night", type: "dark", uiTheme: "vs-dark", url: "https://camillehdl.dev/palette-night/" },
+].map((theme) => ({
+  ...theme,
+  palettePath: fileURLToPath(new URL(`../palette/${theme.name}.json`, import.meta.url)),
+  themePath: fileURLToPath(new URL(`../themes/${theme.name}-color-theme.json`, import.meta.url)),
+}))
 
-const { groups } = JSON.parse(readFileSync(new URL("../palette/ft-paper.json", import.meta.url), "utf8"))
+const readPalette = (name) => JSON.parse(readFileSync(new URL(`../palette/${name}.json`, import.meta.url), "utf8"))
+const swatchesOf = (data) => data.groups.flatMap((group) => group.swatches)
+const colorsOf = (data) => Object.fromEntries(swatchesOf(data).map((s) => [s.role, s.hex.toLowerCase()]))
 
-/** role → lowercase hex, for every swatch including the derived fills. */
-export const palette = Object.fromEntries(
-  groups.flatMap((g) => g.swatches.map((s) => [s.role, s.hex.toLowerCase()]))
-)
-
-/** Roles of the "Derived fills" group: mixed from the palette, not part of it. */
-export const derivedRoles = new Set(
-  groups.filter((g) => g.title === "Derived fills").flatMap((g) => g.swatches.map((s) => s.role))
-)
-
-/** Terminal ANSI slot (0–15) → role, as recorded by the palette. */
-export const ansiSlots = Object.fromEntries(
-  groups
-    .flatMap((g) => g.swatches)
-    .filter((s) => s.ansi !== null)
-    .map((s) => [s.ansi, s.role])
-)
-
-/**
- * Derived fill recipes: palette hue and alpha. The palette publishes the opaque hex;
- * VS Code requires a translucent color for several keys. The same hue at the same
- * alpha, laid over paper, gives back the fill — build.mjs checks it to ±1 per channel
- * and fails otherwise.
- */
-export const fillRecipes = {
-  "fill-add": ["jade-bright", 0.2],
-  "fill-remove": ["crimson", 0.16],
-  "fill-change": ["oxford-bright", 0.16],
-  "fill-change-focus": ["oxford-bright", 0.32],
-  "fill-match": ["mandarin-bright", 0.34],
-  "fill-target": ["claret", 0.4],
+/** Definition → palette roles, fill recipes, published terminal fields and reverse lookup. */
+export const loadPalette = (definition) => {
+  const data = readPalette(definition.name)
+  const palette = colorsOf(data)
+  const swatches = swatchesOf(data)
+  const derivedRoles = new Set(data.groups.filter((g) => g.title === "Derived fills").flatMap((g) => g.swatches.map((s) => s.role)))
+  // Night fills mix the DAY hues over night paper, as their published formulas specify.
+  const fillBases = definition.type === "dark" ? colorsOf(readPalette("ft-paper")) : palette
+  const fillRecipes = Object.fromEntries(swatches.filter((s) => s.role.startsWith("fill-")).map((s) => {
+    const match = s.formula.match(/^([\w-]+) at (\d+)% over (?:night )?paper$/)
+    if (!match || !fillBases[match[1]]) throw new Error(`${s.role}: unsupported formula ${s.formula}`)
+    return [s.role, { base: match[1], hex: fillBases[match[1]], alpha: Number(match[2]) / 100 }]
+  }))
+  const roleOf = (hex) => {
+    const matches = Object.entries(palette).filter(([, h]) => h === hex.slice(0, 7).toLowerCase())
+    return matches.length ? matches.map(([role]) => role).join(" = ") : null
+  }
+  return { ...definition, palette, derivedRoles, fillRecipes, terminal: data.terminal, roleOf }
 }
 
+export const ansiNames = [
+  "Black", "Red", "Green", "Yellow", "Blue", "Magenta", "Cyan", "White",
+  "BrightBlack", "BrightRed", "BrightGreen", "BrightYellow", "BrightBlue", "BrightMagenta", "BrightCyan", "BrightWhite",
+]
+
 export const toRgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16))
-
 export const alphaOf = (hex) => (hex.length === 9 ? parseInt(hex.slice(7, 9), 16) / 255 : 1)
-
 export const alphaByte = (alpha) => Math.round(alpha * 255).toString(16).padStart(2, "0")
-
-/** Lays a #rrggbb[aa] color over an opaque #rrggbb background. */
+/** Composite #rrggbb[aa] over an opaque #rrggbb background. */
 export const composite = (hex, over) => {
   const a = alphaOf(hex)
   const top = toRgb(hex)
   const base = toRgb(over)
-  return `#${top
-    .map((c, i) => Math.round(c * a + base[i] * (1 - a)).toString(16).padStart(2, "0"))
-    .join("")}`
+  return `#${top.map((c, i) => Math.round(c * a + base[i] * (1 - a)).toString(16).padStart(2, "0")).join("")}`
 }
-
 const luminance = (hex) => {
   const [r, g, b] = toRgb(hex).map((c) => {
     const v = c / 255
@@ -67,17 +60,9 @@ const luminance = (hex) => {
   })
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
-
-/** Same formula as the palette page (WCAG 2). */
+/** WCAG 2 contrast ratio of two opaque sRGB colors. */
 export const contrast = (fg, bg) => {
   const a = luminance(fg)
   const b = luminance(bg)
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
-}
-
-/** Opaque hex → role(s); roles sharing a hex are joined with " = ". */
-export const roleOf = (hex) => {
-  const matches = Object.entries(palette).filter(([, h]) => h === hex.slice(0, 7).toLowerCase())
-  if (matches.length === 0) return null
-  return matches.map(([role]) => role).join(" = ")
 }

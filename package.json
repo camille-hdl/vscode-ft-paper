@@ -1,8 +1,8 @@
 {
   "name": "ft-paper",
-  "displayName": "ft-paper",
-  "description": "Light theme generated from the ft-paper palette of camillehdl.dev.",
-  "version": "0.2.0",
+  "displayName": "ft-paper and ft-paper-night",
+  "description": "Light ft-paper and dark ft-paper-night themes generated from the palettes of camillehdl.dev.",
+  "version": "0.3.0",
   "publisher": "CamilleHodoul",
   "author": "Camille Hodoul",
   "license": "0BSD",
@@ -24,11 +24,14 @@
     "theme",
     "light",
     "paper",
-    "ft-paper"
+    "ft-paper",
+    "dark",
+    "night",
+    "ft-paper-night"
   ],
   "galleryBanner": {
-    "color": "#fff1e5",
-    "theme": "light"
+    "color": "#1f1915",
+    "theme": "dark"
   },
   "contributes": {
     "themes": [
@@ -36,12 +39,19 @@
         "label": "ft-paper",
         "uiTheme": "vs",
         "path": "./themes/ft-paper-color-theme.json"
+      },
+      {
+        "label": "ft-paper-night",
+        "uiTheme": "vs-dark",
+        "path": "./themes/ft-paper-night-color-theme.json"
       }
     ]
   },
   "scripts": {
     "palette": "node --no-warnings scripts/fetch-palette.mjs",
     "build": "node --no-warnings scripts/build.mjs",
-    "check": "node --no-warnings scripts/check.mjs"
+    "check": "node --no-warnings scripts/check.mjs",
+    "vscode:prepublish": "npm run build && npm run check",
+    "package": "npx @vscode/vsce package --no-dependencies && node scripts/check-package.mjs"
   }
 }
