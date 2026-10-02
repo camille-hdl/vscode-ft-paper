@@ -211,7 +211,7 @@ for (const definition of themes) {
   // Keep day unchanged; enforce the threshold for night overlays too.
   console.log(`\n  Transient backgrounds (${type === "dark" ? "syntax contrast enforced" : "day syntax exceptions reported"}):`)
   const transient = [
-    ["selection", [], "editor.selectionForeground"],
+    ["selection", []],
     ["inserted line (diff)", ["diffEditor.insertedLineBackground"]],
     ["removed line (diff)", ["diffEditor.removedLineBackground"]],
     ["inserted text (diff)", ["diffEditor.insertedLineBackground", "diffEditor.insertedTextBackground"]],
@@ -238,7 +238,8 @@ for (const definition of themes) {
   for (const [label, layers, fgKey, bgKey = "editor.background"] of transient) {
     const bg = label === "selection" ? col["editor.selectionBackground"] : on(layers, col[bgKey])
     const ink = contrast(col["editor.foreground"], bg)
-    // Night matches and selections can override syntax. Day exceptions stay reported.
+    // Only the listed match/UI foregrounds override syntax. In vs-dark,
+    // editor.selectionForeground is ignored: selections retain token colors.
     const foregrounds = type === "dark" && fgKey && col[fgKey] ? [col[fgKey]] : [...syntax.keys()]
     const worst = foregrounds.map((fg) => [fg, contrast(fg, bg)]).sort((x, y) => x[1] - y[1])
     const under = worst.filter(([, r]) => r < MIN).map(([fg, r]) => `${roleOf(fg)} ${fmt(r)}`)
@@ -250,8 +251,7 @@ for (const definition of themes) {
       const unselected = on(layers, col["editor.background"])
       const visibility = contrast(selected, unselected)
       if (visibility < 1.1) fail(`selection hidden under ${label}: ${visibility.toFixed(3)} < 1.100`)
-      const selectedForegrounds = col["editor.selectionForeground"] ? [col["editor.selectionForeground"]] : [...syntax.keys()]
-      const selectedText = Math.min(...selectedForegrounds.map((fg) => contrast(fg, selected)))
+      const selectedText = Math.min(...foregrounds.map((fg) => contrast(fg, selected)))
       if (selectedText < MIN) fail(`selected text on ${label}: ${fmt(selectedText)}`)
       console.log(`      selected ${selected}; visibility ${visibility.toFixed(3)}; text ${fmt(selectedText)}`)
     }
@@ -263,6 +263,8 @@ for (const definition of themes) {
       ["removed word", "diffEditor.removedLineBackground", "diffEditor.removedTextBackground"],
       ["current header", "merge.currentContentBackground", "merge.currentHeaderBackground"],
       ["incoming header", "merge.incomingContentBackground", "merge.incomingHeaderBackground"],
+      ["common header", "merge.commonContentBackground", "merge.commonHeaderBackground"],
+      ["changed word", "mergeEditor.change.background", "mergeEditor.change.word.background"],
     ]) {
       const base = on([line], col["editor.background"])
       const highlighted = on([line, extra], col["editor.background"])
@@ -272,7 +274,6 @@ for (const definition of themes) {
     }
     // Ordinary editor/terminal search washes reproduce the published night fills.
     for (const [key, role] of [
-      ["diffEditor.insertedLineBackground", "fill-add"], ["diffEditor.removedLineBackground", "fill-remove"],
       ["editor.findMatchHighlightBackground", "fill-match"], ["editor.findMatchBackground", "fill-target"],
       ["terminal.findMatchHighlightBackground", "fill-match"], ["terminal.findMatchBackground", "fill-target"],
     ]) {
@@ -342,7 +343,7 @@ for (const definition of themes) {
     sidebar: col["sideBar.background"],
     selection: col["editor.selectionBackground"],
   })) {
-    const foregrounds = label === "sidebar" ? [col["sideBar.foreground"], col["descriptionForeground"], ...Object.keys(col).filter((k) => k.startsWith("gitDecoration.")).map((k) => col[k])] : label === "selection" && col["editor.selectionForeground"] ? [col["editor.selectionForeground"]] : gated.map(([, fg]) => fg)
+    const foregrounds = label === "sidebar" ? [col["sideBar.foreground"], col["descriptionForeground"], ...Object.keys(col).filter((k) => k.startsWith("gitDecoration.")).map((k) => col[k])] : gated.map(([, fg]) => fg)
     const worst = foregrounds.map((fg) => [fg, contrast(fg, bg)]).sort((a, b) => a[1] - b[1])[0]
     console.log(`  ${label.padEnd(16)} ${fmt(worst[1])}:1 (${roleOf(worst[0])} on ${roleOf(bg)})`)
   }

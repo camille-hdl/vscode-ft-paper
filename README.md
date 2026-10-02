@@ -56,33 +56,41 @@ Semantic highlighting is enabled with the same roles.
 | Editor, active tab, panel, terminal | background `paper`, text `ink` |
 | Side bar, activity bar, title bar, status bar, inactive tabs | background `surface-1` |
 | Widgets (hover, suggestions, command palette, menus, inputs) | background `paper-raised`, border `rule` |
-| Selection | `surface-2`, with `ink` text in the night theme |
+| Selection | `surface-2`; editor text keeps its syntax colors |
 | Cursor | editor (thin bar): `ink`; terminal (block): `claret` over `paper` |
 | Current line | border `surface-3` |
 | Focus, buttons, badges, links | `oxford` |
 | Active tab top border | `claret` |
-| Matched characters in lists | `claret` by day, `ink-2` at night |
+| Matched characters in lists | `claret` |
 | Error / warning / info / hint | `crimson` / `mandarin` / `oxford` / `teal` |
 | Git added, untracked / modified, renamed / deleted / conflict / ignored | `jade` / `oxford` / `crimson` / `mandarin` / `ink-muted` |
-| Diff inserted / removed line | `fill-add` / `fill-remove` |
+| Diff inserted / removed line | hues from `fill-add` / `fill-remove` recipes |
 | Search match / current match | `fill-match` / `fill-target` |
 | Terminal ANSI 0–15 | the palette's `terminal.ansi` fields |
 
 VS Code requires translucent colors for diff, search, and merge backgrounds.
-Both themes use the published fill recipes. Night recipes mix day accents over
-night paper, so a single diff line or editor search wash reproduces its published
-`fill-*` color within one RGB step.
+Both themes use the published recipe hues. Night recipes mix day accents over
+night paper. Ordinary editor and terminal search washes reproduce the published
+`fill-match` and `fill-target` colors within one RGB step, with `ink` match text.
 
-Night selection and editor search matches use `ink` text. This keeps the text
-readable without hiding selections underneath the fills. Added words and current
-conflict headers use an 8% overlay over their added content. Incoming headers and
-changed words use 20% over the existing 20%, reproducing `fill-change-focus` at
-36% overall. Colored borders also distinguish changed words.
+In `vs-dark`, editor selections retain their syntax colors;
+`editor.selectionForeground` only applies to high contrast themes. Night diff,
+merge, search editor, peek code and debugger washes use lower opacities so every
+configured syntax color stays at least 4.5:1, including under selections and
+stacked word/header highlights. These washes therefore differ from the published
+opaque fills. Colored borders also distinguish changed diff words.
 
-Search editors, peek code, and stopped debugger lines have no match-text color
-key. Their night search wash uses the published hue at 17% instead of 34% to keep
-the syntax colors readable. Other editor and terminal search washes keep the
-published recipe.
+| Night decoration | Opacity |
+| --- | --- |
+| Added line / added word or current conflict content / header | 2% / 6% extra |
+| Removed line / removed word | 16% / 10% extra |
+| Incoming conflict content / header or changed line / word | 3% / 7% extra |
+| Common ancestor content / header (`rule`) | 4% / 10% extra |
+| Search editor, peek code, stopped debugger line, list filter | 6% |
+| Focused debugger frame | 8% |
+
+Opacities are rounded to 8-bit alpha values. List matches retain `claret` text;
+search editor and peek code decorations retain syntax colors.
 
 ## Build
 
@@ -109,7 +117,8 @@ npm run package   # package without dependency detection, then verify the VSIX
   - a translucent color has no palette or published recipe base, or no written reason;
   - a required translucent background is opaque, or a night overlay exceeds 60% opacity;
   - night selection visibility under a checked overlay is below a 1.10 contrast ratio;
-  - selected night text is below 4.5:1 under the checked overlays;
+  - selected night text is below 4.5:1 under the checked overlays, using retained
+    syntax colors except where VS Code applies an explicit match or UI foreground;
   - a night diff word or conflict header has less than 1.05 contrast with its content;
   - body text, comments, line numbers or any syntax color is below 4.5:1 on the editor,
     hover or peek background;
