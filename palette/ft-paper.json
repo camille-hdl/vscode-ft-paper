@@ -100,7 +100,7 @@
     },
     {
       "title": "Ink",
-      "purpose": "Text, from primary down to faint. Each figure is the contrast against paper, then against the deepest surface the ink is cleared for. Faint and disabled stay under 4.5:1: they are never content.",
+      "purpose": "Text, from primary down to faint. Each figure is the contrast against paper, then against the deepest surface the ink is cleared for. Disabled stays under 4.5:1: it is never content.",
       "swatches": [
         {
           "role": "ink",
@@ -123,6 +123,24 @@
             "contrast": 10.78
           },
           "note": "Body text, terminal foreground"
+        },
+        {
+          "role": "masthead",
+          "name": "Masthead",
+          "hex": "#191817",
+          "rgb": "rgb(25, 24, 23)",
+          "formula": "black at 90% over paper",
+          "ansi": null,
+          "contrast": 16.01,
+          "contrastMeans": "on paper",
+          "readsOn": [
+            "paper"
+          ],
+          "worstContrast": {
+            "surface": "paper",
+            "contrast": 16.01
+          },
+          "note": "The site's name, darker than body ink; the site only"
         },
         {
           "role": "ink-2",
@@ -170,15 +188,22 @@
         {
           "role": "ink-faint",
           "name": "Faint",
-          "hex": "#7d746b",
-          "rgb": "rgb(125, 116, 107)",
+          "hex": "#6f6862",
+          "rgb": "rgb(111, 104, 98)",
           "formula": null,
           "ansi": null,
-          "contrast": 4.14,
+          "contrast": 4.95,
           "contrastMeans": "on paper",
-          "readsOn": [],
-          "worstContrast": null,
-          "note": "Hints and inactive labels, under 4.5:1"
+          "readsOn": [
+            "paper",
+            "paper-raised",
+            "surface-1"
+          ],
+          "worstContrast": {
+            "surface": "surface-1",
+            "contrast": 4.53
+          },
+          "note": "Hints and inactive labels; on paper, raised and surface 1"
         },
         {
           "role": "ink-disabled",
@@ -567,6 +592,19 @@
           "backgroundHex": "#fff1e5"
         },
         {
+          "use": "Site name",
+          "text": "masthead",
+          "background": "paper",
+          "note": null,
+          "tools": [
+            "site"
+          ],
+          "exempt": null,
+          "contrast": 16.01,
+          "textHex": "#191817",
+          "backgroundHex": "#fff1e5"
+        },
+        {
           "use": "Secondary text",
           "text": "ink-2",
           "background": "paper",
@@ -623,9 +661,9 @@
           "tools": [
             "btop"
           ],
-          "exempt": "Never content: a hint sits beside what it describes",
-          "contrast": 4.14,
-          "textHex": "#7d746b",
+          "exempt": null,
+          "contrast": 4.95,
+          "textHex": "#6f6862",
           "backgroundHex": "#fff1e5"
         },
         {
@@ -820,7 +858,6 @@
           "background": "surface-2",
           "note": null,
           "tools": [
-            "site",
             "ghostty",
             "herdr",
             "neovim",
@@ -831,6 +868,19 @@
           "contrast": 11.1,
           "textHex": "#262a33",
           "backgroundHex": "#f2dfce"
+        },
+        {
+          "use": "Selection on this site",
+          "text": "ink",
+          "background": "fill-change-focus",
+          "note": "surface-2 sits too close to paper to show a selection on a page",
+          "tools": [
+            "site"
+          ],
+          "exempt": null,
+          "contrast": 8.34,
+          "textHex": "#262a33",
+          "backgroundHex": "#b7c7da"
         },
         {
           "use": "Current line, active row",

@@ -522,6 +522,9 @@ export const buildTheme = ({ name, type, palette, fillRecipes, terminal }) => {
     cursorBar: "editorCursor.foreground", selectionBackground: "terminal.selectionBackground",
   }
   for (const [field, key] of Object.entries(terminalKeys)) ui[key] = terminal[field].hex.toLowerCase()
+  // Match site and Ghostty text selection; published terminal metadata still uses surface-2.
+  ui["terminal.selectionBackground"] = c("fill-change-focus")
+  ui["terminal.selectionForeground"] = c("ink")
   for (const [slot, ansiName] of ansiNames.entries()) {
     const entry = terminal.ansi.find((entry) => entry.index === slot)
     if (!entry) throw new Error(`ANSI slot ${slot} missing from the palette`)

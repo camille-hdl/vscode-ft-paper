@@ -341,7 +341,7 @@ for (const definition of themes) {
   for (const [field, key] of Object.entries({
     background: "terminal.background", foreground: "terminal.foreground",
     cursor: "terminalCursor.foreground", cursorText: "terminalCursor.background",
-    cursorBar: "editorCursor.foreground", selectionBackground: "terminal.selectionBackground",
+    cursorBar: "editorCursor.foreground",
   })) {
     if (col[key] !== terminal[field].hex.toLowerCase()) fail(`${key}: differs from terminal.${field}`)
   }
@@ -352,7 +352,8 @@ for (const definition of themes) {
     const ratio = contrast(col[fgKey], col[bgKey])
     if (ratio < MIN) fail(`${fgKey} on ${bgKey}: ${fmt(ratio)}`)
   }
-  if (type === "dark" && col["terminal.selectionForeground"] !== terminal.selectionForeground.hex.toLowerCase()) fail("terminal selection foreground differs from palette")
+  if (col["terminal.selectionBackground"] !== palette["fill-change-focus"]) fail("terminal selection background must use fill-change-focus")
+  if (col["terminal.selectionForeground"] !== palette.ink) fail("terminal selection foreground must use ink")
   const ansiContrasts = []
   for (const [index, ansiName] of ansiNames.entries()) {
     const entry = terminal.ansi.find((entry) => entry.index === index)

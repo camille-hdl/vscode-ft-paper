@@ -18,7 +18,7 @@ The night screenshot shows VS Code with an isolated profile and the packaged the
 
 - Marketplace: search for `ft-paper` in the Extensions view, or
   `code --install-extension CamilleHodoul.ft-paper`.
-- From a local package: `code --install-extension ft-paper-0.3.0.vsix`.
+- From a local package: `code --install-extension ft-paper-0.3.1.vsix`.
 
 Run **Preferences: Color Theme**, then select `ft-paper` or `ft-paper-night`.
 
@@ -56,7 +56,8 @@ Semantic highlighting is enabled with the same roles.
 | Editor, active tab, panel, terminal | background `paper`, text `ink` |
 | Side bar, activity bar, title bar, status bar, inactive tabs | background `surface-1` |
 | Widgets (hover, suggestions, command palette, menus, inputs) | background `paper-raised`, border `rule` |
-| Selection | `surface-2`, at 65% opacity in the night editor; text keeps its syntax colors |
+| Editor selection | `surface-2`, at 65% opacity in the night editor; text keeps its syntax colors |
+| Terminal selection | `fill-change-focus`, text `ink`, matching the site and Ghostty |
 | Cursor | editor (thin bar): `ink`; terminal (block): `claret` over `paper` |
 | Current line | border `surface-3` |
 | Focus, buttons, badges, links | `oxford` |
@@ -147,7 +148,7 @@ Packaging runs the build and checks through `vscode:prepublish`.
 then checks the actual archive. The packaged version and contributions must match
 `package.json`, both theme files must match the generated files, and the README
 and license must be present. You can repeat that check with
-`node scripts/check-package.mjs ft-paper-0.3.0.vsix`.
+`node scripts/check-package.mjs ft-paper-0.3.1.vsix`.
 
 ## Known limits
 

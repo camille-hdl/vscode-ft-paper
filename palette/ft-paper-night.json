@@ -750,6 +750,15 @@
           "backgroundHex": "#3a2f27"
         },
         {
+          "use": "Selection on camillehdl.dev",
+          "text": "ink",
+          "background": "fill-change-focus",
+          "note": "The site selects text on the change fill; surface-2 sits too close to paper to show on a page",
+          "contrast": 8.07,
+          "textHex": "#e3d1bf",
+          "backgroundHex": "#1f3854"
+        },
+        {
           "use": "Current line",
           "text": "ink",
           "background": "surface-3",
